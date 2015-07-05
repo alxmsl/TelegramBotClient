@@ -17,6 +17,9 @@
 
 namespace alxmsl\Telegram\Bot;
 
+use alxmsl\Network\Exception\HttpClientErrorCodeException;
+use alxmsl\Network\Exception\HttpCodeException;
+use alxmsl\Network\Exception\HttpServerErrorCodeException;
 use alxmsl\Network\Http\Request;
 use alxmsl\Telegram\Bot\Exception\UnsuccessfulException;
 use alxmsl\Telegram\Bot\Type\ForceReply;
@@ -129,7 +132,7 @@ class Client {
         if (!is_null($ReplyMarkUp)) {
             $parameters['reply_markup'] = json_encode($ReplyMarkUp);
         }
-        return $this->getResult('getUpdates', $parameters, function(stdClass $Message) {
+        return $this->getResult('sendMessage', $parameters, function(stdClass $Message) {
             return Message::initializeByObject($Message);
         });
     }
@@ -443,7 +446,7 @@ class Client {
         if (!is_null($ReplyMarkUp)) {
             $parameters['reply_markup'] = json_encode($ReplyMarkUp);
         }
-        return $this->getResult('sendVideo', $parameters, function(stdClass $Message) {
+        return $this->getResult('sendLocation', $parameters, function(stdClass $Message) {
             return Message::initializeByObject($Message);
         });
     }
@@ -479,7 +482,7 @@ class Client {
         if (!is_null($limit)) {
             $parameters['limit'] = (int) $limit;
         }
-        return $this->getResult('sendVideo', $parameters, function(stdClass $Photos) {
+        return $this->getResult('getUserProfilePhotos', $parameters, function(stdClass $Photos) {
             return UserProfilePhotos::initializeByObject($Photos);
         });
     }
@@ -556,7 +559,11 @@ class Client {
         if (!empty($parameters)) {
             $Request->setPostData($parameters);
         }
-        return $Request->send();
+        try {
+            return $Request->send();
+        } catch (HttpCodeException $Ex) {
+            return $Ex->getMessage();
+        }
     }
 
     /**
