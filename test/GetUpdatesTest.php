@@ -28,7 +28,7 @@ use alxmsl\Telegram\Bot\Type\User;
 use alxmsl\Telegram\Bot\Type\Video;
 
 /**
- * Telegram Bot API Client test class
+ * Bot API getUpdates method test
  * @author alxmsl
  */
 final class GetUpdatesTest extends AbstractCallTest {
