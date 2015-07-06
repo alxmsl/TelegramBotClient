@@ -275,7 +275,7 @@ class Message implements ObjectInitializedInterface {
      * @return $this self instance
      */
     private function setSticker($Sticker) {
-        $this->Sticker = $Sticker;
+        $this->Sticker = Sticker::initializeByObject($Sticker);
         return $this;
     }
     
