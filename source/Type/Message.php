@@ -206,7 +206,7 @@ class Message implements ObjectInitializedInterface {
     private $Audio = null;
     
     /**
-     * @param Audio|null $Audio when message is an audio file, information about the file
+     * @param stdClass $Audio when message is an audio file, information about the file
      * @return $this self instance
      */
     private function setAudio($Audio) {
@@ -271,7 +271,7 @@ class Message implements ObjectInitializedInterface {
     private $Sticker = null;
     
     /**
-     * @param Sticker|null $Sticker when message is a sticker, information about the sticker
+     * @param stdClass $Sticker when message is a sticker, information about the sticker
      * @return $this self instance
      */
     private function setSticker($Sticker) {

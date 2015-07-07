@@ -1,6 +1,7 @@
 # TelegramBotClient
 
 [![Build Status](https://travis-ci.org/alxmsl/TelegramBotClient.svg)](https://travis-ci.org/alxmsl/TelegramBotClient)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alxmsl/TelegramBotClient/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alxmsl/TelegramBotClient/?branch=master)
 
 Powerful client for [Telegram Bot API](https://core.telegram.org/bots)
 

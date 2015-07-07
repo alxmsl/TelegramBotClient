@@ -536,7 +536,7 @@ class Client {
      * @throws UnsuccessfulException exception for unsuccessful request responses
      */
     private function getResult($methodName, array $parameters = [], Closure $BuildStrategy = null) {
-        $responseData = $this->call($methodName, $parameters, $BuildStrategy);
+        $responseData = $this->call($methodName, $parameters);
         $Response     = Response::initializeByString($responseData, $BuildStrategy);
         if (!$Response->isOk()) {
             throw new UnsuccessfulException($Response->getDescription(), $Response->getErrorCode());
