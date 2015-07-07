@@ -210,7 +210,7 @@ class Message implements ObjectInitializedInterface {
      * @return $this self instance
      */
     private function setAudio($Audio) {
-        $this->Audio = $Audio;
+        $this->Audio = Audio::initializeByObject($Audio);
         return $this;
     }
     

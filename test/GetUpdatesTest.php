@@ -18,6 +18,7 @@
 namespace alxmsl\Test\Telegram\Bot\Type;
 
 use alxmsl\Telegram\Bot\Exception\UnsuccessfulException;
+use alxmsl\Telegram\Bot\Type\Audio;
 use alxmsl\Telegram\Bot\Type\Contact;
 use alxmsl\Telegram\Bot\Type\Document;
 use alxmsl\Telegram\Bot\Type\Location;
@@ -48,6 +49,8 @@ final class GetUpdatesTest extends AbstractCallTest {
 "message":{"message_id":16,"from":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"},"chat":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"},"date":1436212247,"text":"\ud83c\udfe9"}},{"update_id":765432196,
 "message":{"message_id":17,"from":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"chat":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"date":1436212283,"sticker":{"width":310,"height":512,"thumb":{"file_id":"ABCDEFGHIJKLMNOPQRSTUVXYZ1","file_size":2282,"width":54,"height":90},"file_id":"ABCDEFGHIJKLMNOPQRSTUVXYZ1-2","file_size":39886}}},{"update_id":765432197,
 "message":{"message_id":18,"from":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"},"chat":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"},"date":1436212408,"document":{"file_name":"\u0417\u0430\u0447\u0435\u043c.pdf","mime_type":"application\/pdf","thumb":{},"file_id":"ABCDEFGHIJKLMNOPQRSTUVXYZBBAA","file_size":2421982}}}]}'
+            , '{"ok":true,"result":[{"update_id":765432198,
+"message":{"message_id":20,"from":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"chat":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"date":1436243105,"audio":{"duration":6,"file_id":"AWWAWWSDRWWSA","file_size":13826}}}]}'
         ));
 
         try {
@@ -79,8 +82,7 @@ final class GetUpdatesTest extends AbstractCallTest {
         $this->assertEquals('Alexey', $oneUpdates[0]->getMessage()->getChat()->getFirstName());
         $this->assertEquals('Maslov', $oneUpdates[0]->getMessage()->getChat()->getLastName());
         $this->assertEmpty($oneUpdates[0]->getMessage()->getChat()->getUsername());
-
-
+        
         $allUpdates = $ClientMock->getUpdates();
         $this->assertCount(10, $allUpdates);
 
@@ -303,5 +305,27 @@ final class GetUpdatesTest extends AbstractCallTest {
         $this->assertNull($allUpdates[9]->getMessage()->getDocument()->getThumb());
         $this->assertEquals('ABCDEFGHIJKLMNOPQRSTUVXYZBBAA', $allUpdates[9]->getMessage()->getDocument()->getFileId());
         $this->assertSame(2421982, $allUpdates[9]->getMessage()->getDocument()->getFileSize());
+
+        // audio
+        $audioUpdates = $ClientMock->getUpdates();
+        $this->assertCount(1, $audioUpdates);
+        $this->assertEquals(765432198, $audioUpdates[0]->getUpdateId());
+        $this->assertInstanceOf(Message::class, $audioUpdates[0]->getMessage());
+        $this->assertEquals(20, $audioUpdates[0]->getMessage()->getMessageId());
+        $this->assertEquals(1436243105, $audioUpdates[0]->getMessage()->getDate());
+        $this->assertInstanceOf(User::class, $audioUpdates[0]->getMessage()->getFrom());
+        $this->assertEquals(34567, $audioUpdates[0]->getMessage()->getFrom()->getId());
+        $this->assertEquals('Alexey', $audioUpdates[0]->getMessage()->getFrom()->getFirstName());
+        $this->assertEquals('Maslov', $audioUpdates[0]->getMessage()->getFrom()->getLastName());
+        $this->assertEmpty($audioUpdates[0]->getMessage()->getFrom()->getUsername());
+        $this->assertInstanceOf(User::class, $audioUpdates[0]->getMessage()->getChat());
+        $this->assertEquals(34567, $audioUpdates[0]->getMessage()->getChat()->getId());
+        $this->assertEquals('Alexey', $audioUpdates[0]->getMessage()->getChat()->getFirstName());
+        $this->assertEquals('Maslov', $audioUpdates[0]->getMessage()->getChat()->getLastName());
+        $this->assertEmpty($audioUpdates[0]->getMessage()->getChat()->getUsername());
+        $this->assertInstanceOf(Audio::class, $audioUpdates[0]->getMessage()->getAudio());
+        $this->assertSame(6, $audioUpdates[0]->getMessage()->getAudio()->getDuration());
+        $this->assertSame(13826, $audioUpdates[0]->getMessage()->getAudio()->getFileSize());
+        $this->assertEquals('AWWAWWSDRWWSA', $audioUpdates[0]->getMessage()->getAudio()->getFileId());
     }
 }

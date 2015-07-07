@@ -127,11 +127,11 @@ For completely tests running just call `phpunit` command
     
     Runtime:	PHP 5.5.23
     
-    ...
+    ............
     
-    Time: 75 ms, Memory: 6.00Mb
+    Time: 96 ms, Memory: 7.00Mb
     
-    OK (3 tests, 250 assertions)
+    OK (12 tests, 476 assertions)
 ```
 
 ## License
