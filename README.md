@@ -1,5 +1,6 @@
 # TelegramBotClient
 
+[![License](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Build Status](https://travis-ci.org/alxmsl/TelegramBotClient.svg)](https://travis-ci.org/alxmsl/TelegramBotClient)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alxmsl/TelegramBotClient/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alxmsl/TelegramBotClient/?branch=master)
 
