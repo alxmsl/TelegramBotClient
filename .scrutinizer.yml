@@ -15,7 +15,6 @@ checks:
         encourage_single_quotes: true
         classes_in_camel_caps: true
         avoid_todo_comments: true
-
 coding_style:
     php:
         spaces:
@@ -45,8 +44,5 @@ coding_style:
                 general: lower
             constants:
                 true_false_null: lower
-
 tools:
-    external_code_coverage:
-        timeout: 600
-        runs: 3
+    external_code_coverage: true
