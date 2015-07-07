@@ -1,5 +1,7 @@
 # TelegramBotClient
 
+[![Build Status](https://travis-ci.org/alxmsl/TelegramBotClient.svg)](https://travis-ci.org/alxmsl/TelegramBotClient)
+
 Powerful client for [Telegram Bot API](https://core.telegram.org/bots)
 
 ## Advantages
@@ -11,6 +13,22 @@ Powerful client for [Telegram Bot API](https://core.telegram.org/bots)
 3. `composer` support makes installation simplified
 4. Independent namespace helps to use Bot API client on different projects and frameworks
 5. [CLI utility](/bin/call.php) helps you to test Bot API interactions
+
+## Installation
+
+For simplified usage all what you need is require packet via composer
+
+```
+    $ composer require alxmsl/telegrambotclient
+```
+
+In third-party projects, require packet in your `composer.json`
+
+```
+    "alxmsl/telegrambotclient": "*"
+```
+
+...and update composer: `composer update`
 
 ## Usages
 
@@ -100,22 +118,6 @@ When something wrong^ utility will show you error response from Bot API
     $ php bin/call.php -t='123456789:Y0uR5EcREtT0KEn' -m='getUpdates' -p='{"limit":1}' 
     {"ok":true,"result":[{"update_id":7654321,"message":{"message_id":2,"from":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"chat":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"date":1435870467,"text":"\/start"}}]}
 ```
-
-## Installation
-
-For simplified usage all what you need is require packet via composer
-
-```
-    $ composer require alxmsl/telegrambotclient
-```
-
-In third-party projects, require packet in your `composer.json`
-
-```
-    "alxmsl/telegrambotclient": "*"
-```
-
-...and update composer: `composer update`
 
 ## Tests
 
