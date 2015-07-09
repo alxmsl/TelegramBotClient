@@ -74,7 +74,7 @@ final class Response {
 
     /**
      * @param string $string response string
-     * @param Closure $BuildStrategy build strategy for response result(s)
+     * @param Closure|null $BuildStrategy build strategy for response result(s)
      * @return $this response instance
      */
     public static function initializeByString($string, $BuildStrategy = null) {

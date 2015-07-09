@@ -112,8 +112,8 @@ class Client {
      * @param string $text text of the message to be sent
      * @param bool|null $disableWebPagePreview disables link previews for links in this message
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendMessage($chatId, $text, $disableWebPagePreview = null, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -155,11 +155,12 @@ class Client {
     /**
      * Method to send photo
      * @param int $chatId unique identifier for the message recipient
-     * @param CURLFile|string $Photo photo to send - photo that is already on the Telegram servers, or upload a new photo
+     * @param CURLFile|string $Photo photo to send - photo that is already on the Telegram servers, or upload a new
+     * photo
      * @param string $caption photo caption
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendPhoto($chatId, $Photo, $caption = '', $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -187,8 +188,8 @@ class Client {
      * @param string $fileId identifier of the photo that is already on the Telegram servers
      * @param string $caption photo caption
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendPhotoByFileId($chatId, $fileId, $caption = '', $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -201,8 +202,8 @@ class Client {
      * @param string $fileName path for upload a new photo from file
      * @param string $caption photo caption
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendPhotoFile($chatId, $fileName, $caption = '', $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -216,8 +217,8 @@ class Client {
      * @param CURLFile|string $Audio audio to send - audio that is already on the Telegram servers, or upload a new
      * audio
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendAudio($chatId, $Audio, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -241,8 +242,8 @@ class Client {
      * @param int $chatId unique identifier for the message recipient
      * @param string $fileId identifier of the audio that is already on the Telegram servers
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendAudioByFileId($chatId, $fileId, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -254,8 +255,8 @@ class Client {
      * @param int $chatId unique identifier for the message recipient
      * @param string $fileName path for upload a new audio from file
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendAudioByFileName($chatId, $fileName, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -269,8 +270,8 @@ class Client {
      * @param CURLFile|string $Document document to send - document that is already on the Telegram servers, or upload a
      * new document
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendDocument($chatId, $Document, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -294,8 +295,8 @@ class Client {
      * @param int $chatId unique identifier for the message recipient
      * @param string $fileId identifier of the document that is already on the Telegram servers
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendDocumentByFileId($chatId, $fileId, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -307,8 +308,8 @@ class Client {
      * @param int $chatId unique identifier for the message recipient
      * @param string $fileName path for upload a new document from file
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendDocumentByFileName($chatId, $fileName, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -319,11 +320,11 @@ class Client {
     /**
      * Method to send sticker
      * @param int $chatId unique identifier for the message recipient
-     * @param CURLFile|string $Sticker sticker to send - sticker that is already on the Telegram servers, or upload a new
-     * sticker
+     * @param CURLFile|string $Sticker sticker to send - sticker that is already on the Telegram servers, or upload a
+     * new sticker
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendSticker($chatId, $Sticker, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -347,8 +348,8 @@ class Client {
      * @param int $chatId unique identifier for the message recipient
      * @param string $fileId identifier of the sticker that is already on the Telegram servers
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendStickerByFileId($chatId, $fileId, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -360,8 +361,8 @@ class Client {
      * @param int $chatId unique identifier for the message recipient
      * @param string $fileName path for upload a new sticker from file
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendStickerByFileName($chatId, $fileName, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -375,8 +376,8 @@ class Client {
      * @param CURLFile|string $Video video to send - video that is already on the Telegram servers, or upload a new
      * video
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendVideo($chatId, $Video, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -400,8 +401,8 @@ class Client {
      * @param int $chatId unique identifier for the message recipient
      * @param string $fileId identifier of the video that is already on the Telegram servers
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendVideoByFileId($chatId, $fileId, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -413,8 +414,8 @@ class Client {
      * @param int $chatId unique identifier for the message recipient
      * @param string $fileName path for upload a new video from file
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendVideoByFileName($chatId, $fileName, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
@@ -428,8 +429,8 @@ class Client {
      * @param float $latitude latitude of location
      * @param float $longitude longitude of location
      * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable $ReplyMarkUp object for a custom reply
-     * keyboard, instructions to hide keyboard or to force a reply from the user
+     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
+     * reply keyboard, instructions to hide keyboard or to force a reply from the user
      * @return Message sent message instance
      */
     public function sendLocation($chatId, $latitude, $longitude, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
