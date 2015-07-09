@@ -61,14 +61,14 @@ final class GetUpdatesTest extends AbstractCallTest {
         ));
 
         try {
-            $ClientMock->getUpdates();
+            $ClientMock->getUpdates(0, 10);
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(401, $Ex->getCode());
             $this->assertEquals('Error: Unauthorized', $Ex->getMessage());
         }
 
-        $emptyUpdates = $ClientMock->getUpdates();
+        $emptyUpdates = $ClientMock->getUpdates(1, 20, 10);
         $this->assertSame([], $emptyUpdates);
         $this->assertCount(0, $emptyUpdates);
 
