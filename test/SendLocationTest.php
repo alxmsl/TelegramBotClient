@@ -20,6 +20,7 @@ namespace alxmsl\Test\Telegram\Bot\Type;
 use alxmsl\Telegram\Bot\Exception\UnsuccessfulException;
 use alxmsl\Telegram\Bot\Type\Location;
 use alxmsl\Telegram\Bot\Type\Message;
+use alxmsl\Telegram\Bot\Type\ReplyKeyboardHide;
 use alxmsl\Telegram\Bot\Type\User;
 
 /**
@@ -37,7 +38,7 @@ final class SendLocationTest extends AbstractCallTest {
         ));
 
         try {
-            $ClientMock->sendLocation(1, .0, .0);
+            $ClientMock->sendLocation(1, .0, .0, 17);
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(401, $Ex->getCode());
@@ -45,7 +46,7 @@ final class SendLocationTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendLocation(1, .0, .0);
+            $ClientMock->sendLocation(1, .0, .0, null, new ReplyKeyboardHide());
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
