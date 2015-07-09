@@ -34,7 +34,7 @@ final class GetUserProfilePhotosTest extends AbstractCallTest {
         ));
 
         try {
-            $ClientMock->getUserProfilePhotos(1);
+            $ClientMock->getUserProfilePhotos(1, 0, 1);
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(401, $Ex->getCode());
