@@ -18,6 +18,7 @@
 namespace alxmsl\Test\Telegram\Bot\Type;
 
 use alxmsl\Telegram\Bot\Exception\UnsuccessfulException;
+use alxmsl\Telegram\Bot\Type\ForceReply;
 use alxmsl\Telegram\Bot\Type\GroupChat;
 use alxmsl\Telegram\Bot\Type\Message;
 use alxmsl\Telegram\Bot\Type\User;
@@ -38,7 +39,7 @@ final class SendMessageTest extends AbstractCallTest {
         ));
 
         try {
-            $ClientMock->sendMessage(1, '');
+            $ClientMock->sendMessage(1, '', true);
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(401, $Ex->getCode());
@@ -46,7 +47,7 @@ final class SendMessageTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendMessage(1, '');
+            $ClientMock->sendMessage(1, '', null, 17);
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
@@ -54,7 +55,7 @@ final class SendMessageTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendMessage(1, '');
+            $ClientMock->sendMessage(1, '', null, null, new ForceReply());
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());

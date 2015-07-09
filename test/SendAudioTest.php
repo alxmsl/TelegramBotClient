@@ -19,6 +19,7 @@ namespace alxmsl\Test\Telegram\Bot\Type;
 
 use alxmsl\Telegram\Bot\Exception\UnsuccessfulException;
 use alxmsl\Telegram\Bot\Type\Message;
+use alxmsl\Telegram\Bot\Type\ReplyKeyboardHide;
 use alxmsl\Telegram\Bot\Type\User;
 use alxmsl\Telegram\Bot\Type\Audio;
 
@@ -38,7 +39,7 @@ final class SendAudioTest extends AbstractCallTest {
         ));
 
         try {
-            $ClientMock->sendAudio(1, '');
+            $ClientMock->sendAudio(1, '', 17);
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(401, $Ex->getCode());
@@ -46,7 +47,7 @@ final class SendAudioTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendAudio(1, '');
+            $ClientMock->sendAudio(1, '', null, new ReplyKeyboardHide());
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
@@ -54,7 +55,7 @@ final class SendAudioTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendAudio(1, '');
+            $ClientMock->sendAudioByFileId(1, '');
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
@@ -62,7 +63,7 @@ final class SendAudioTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendAudio(1, '');
+            $ClientMock->sendAudioByFileName(1, __FILE__);
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
