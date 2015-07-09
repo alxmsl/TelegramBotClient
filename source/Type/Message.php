@@ -89,7 +89,7 @@ class Message implements ObjectInitializedInterface {
     }
     
     /**
-     * @var User|GroupChat conversation the message belongs to — user in case of a private $message, GroupChat in case of a group
+     * @var Chat|User|GroupChat conversation the message belongs to — user in case of a private $message, GroupChat in case of a group
      */
     private $Chat = null;
     

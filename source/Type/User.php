@@ -24,7 +24,7 @@ use stdClass;
  * Class represents a Telegram user or bot
  * @author alxmsl
  */
-final class User implements ObjectInitializedInterface {
+final class User extends Chat implements ObjectInitializedInterface {
     /**
      * @var int unique identifier for this user or bot
      */

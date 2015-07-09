@@ -24,7 +24,7 @@ use stdClass;
  * Class represents a group chat
  * @author alxmsl
  */
-final class GroupChat implements ObjectInitializedInterface {
+final class GroupChat extends Chat implements ObjectInitializedInterface {
     /**
      * @var int unique identifier for this group chat
      */
