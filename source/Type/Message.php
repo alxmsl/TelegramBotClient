@@ -447,43 +447,43 @@ class Message implements ObjectInitializedInterface {
     /**
      * @var bool informs that the group photo was deleted
      */
-    private $deleteChatPhoto = false;
+    private $isDeleteChatPhoto = false;
     
     /**
-     * @param bool $deleteChatPhoto informs that the group photo was deleted
+     * @param bool $isDeleteChatPhoto informs that the group photo was deleted
      * @return $this self instance
      */
-    private function setDeleteChatPhoto($deleteChatPhoto) {
-        $this->deleteChatPhoto = (bool) $deleteChatPhoto;
+    private function setIsDeleteChatPhoto($isDeleteChatPhoto) {
+        $this->isDeleteChatPhoto = (bool) $isDeleteChatPhoto;
         return $this;
     }
     
     /**
      * @return bool informs that the group photo was deleted
      */
-    public function getDeleteChatPhoto() {
-        return $this->deleteChatPhoto;
+    public function isDeleteChatPhoto() {
+        return $this->isDeleteChatPhoto;
     }
     
     /**
      * @var bool informs that the group has been created
      */
-    private $groupChatCreated = false;
+    private $isGroupChatCreated = false;
     
     /**
-     * @param bool $groupChatCreated informs that the group has been created
+     * @param bool $isGroupChatCreated informs that the group has been created
      * @return $this self instance
      */
-    private function setGroupChatCreated($groupChatCreated) {
-        $this->groupChatCreated = $groupChatCreated;
+    private function setIsGroupChatCreated($isGroupChatCreated) {
+        $this->isGroupChatCreated = (bool) $isGroupChatCreated;
         return $this;
     }
     
     /**
      * @return bool informs that the group has been created
      */
-    public function getGroupChatCreated() {
-        return $this->groupChatCreated;
+    public function isGroupChatCreated() {
+        return $this->isGroupChatCreated;
     }
 
     /**
@@ -542,10 +542,10 @@ class Message implements ObjectInitializedInterface {
             $Message->setNewChatPhoto($Object->new_chat_photo);
         }
         if (isset($Object->delete_chat_photo)) {
-            $Message->setDeleteChatPhoto($Object->delete_chat_photo);
+            $Message->setIsDeleteChatPhoto($Object->delete_chat_photo);
         }
         if (isset($Object->group_chat_created)) {
-            $Message->setGroupChatCreated($Object->group_chat_created);
+            $Message->setIsGroupChatCreated($Object->group_chat_created);
         }
         return $Message;
     }

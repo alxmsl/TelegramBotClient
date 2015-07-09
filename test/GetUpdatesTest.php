@@ -21,6 +21,7 @@ use alxmsl\Telegram\Bot\Exception\UnsuccessfulException;
 use alxmsl\Telegram\Bot\Type\Audio;
 use alxmsl\Telegram\Bot\Type\Contact;
 use alxmsl\Telegram\Bot\Type\Document;
+use alxmsl\Telegram\Bot\Type\GroupChat;
 use alxmsl\Telegram\Bot\Type\Location;
 use alxmsl\Telegram\Bot\Type\Message;
 use alxmsl\Telegram\Bot\Type\PhotoSize;
@@ -49,8 +50,14 @@ final class GetUpdatesTest extends AbstractCallTest {
 "message":{"message_id":16,"from":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"},"chat":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"},"date":1436212247,"text":"\ud83c\udfe9"}},{"update_id":765432196,
 "message":{"message_id":17,"from":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"chat":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"date":1436212283,"sticker":{"width":310,"height":512,"thumb":{"file_id":"ABCDEFGHIJKLMNOPQRSTUVXYZ1","file_size":2282,"width":54,"height":90},"file_id":"ABCDEFGHIJKLMNOPQRSTUVXYZ1-2","file_size":39886}}},{"update_id":765432197,
 "message":{"message_id":18,"from":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"},"chat":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"},"date":1436212408,"document":{"file_name":"\u0417\u0430\u0447\u0435\u043c.pdf","mime_type":"application\/pdf","thumb":{},"file_id":"ABCDEFGHIJKLMNOPQRSTUVXYZBBAA","file_size":2421982}}}]}'
-            , '{"ok":true,"result":[{"update_id":765432198,
-"message":{"message_id":20,"from":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"chat":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"date":1436243105,"audio":{"duration":6,"file_id":"AWWAWWSDRWWSA","file_size":13826}}}]}'
+            , '{"ok":true,"result":[{"update_id":765432198,"message":{"message_id":20,"from":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"chat":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"date":1436243105,"audio":{"duration":6,"file_id":"AWWAWWSDRWWSA","file_size":13826}}}]}'
+            , '{"ok":true,"result":[{"update_id":709393607,"message":{"message_id":49,"from":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"chat":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"date":1436476562,"reply_to_message":{"message_id":48,"from":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"chat":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"date":1436475797,"audio":{"duration":4,"file_id":"ABCDEFGHIJKLMNOPQRSTUVXYZBBAA_OO","file_size":9345}},"text":"Op"}}]}'
+            , '{"ok":true,"result":[{"update_id":709393607,"message":{"message_id":49,"from":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"chat":{"id":98765,"title":"SomeChat"},"date":1436476562,"text":"text","new_chat_title":"some_title"}}]}'
+            , '{"ok":true,"result":[{"update_id":709393607,"message":{"message_id":49,"from":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"chat":{"id":98765,"title":"SomeChat"},"date":1436476562,"text":"hello","group_chat_created":true}}]}'
+            , '{"ok":true,"result":[{"update_id":709393607,"message":{"message_id":49,"from":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"chat":{"id":98765,"title":"SomeChat"},"date":1436476562,"text":"ooops","delete_chat_photo":true}}]}'
+            , '{"ok":true,"result":[{"update_id":709393607,"message":{"message_id":49,"from":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"chat":{"id":98765,"title":"SomeChat"},"date":1436476562,"new_chat_photo":[{"file_id":"ABCDEFGHIJKLMNOPQRSTUV12345","file_size":1105,"width":67,"height":90},{"file_id":"ABCDEFGHIJKLMNOPQRSTUV123456","file_size":13517,"width":239,"height":320},{"file_id":"ABCDEFGHIJKLMNOPQRSTUV123457","file_size":64033,"width":597,"height":800},{"file_id":"ABCDEFGHIJKLMNOPQRSTUV123458","file_size":124021,"width":956,"height":1280}]}}]}'
+            , '{"ok":true,"result":[{"update_id":709393607,"message":{"message_id":49,"from":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"chat":{"id":98765,"title":"SomeChat"},"date":1436476562,"new_chat_participant":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"}}}]}'
+            , '{"ok":true,"result":[{"update_id":709393607,"message":{"message_id":49,"from":{"id":34567,"first_name":"Alexey","last_name":"Maslov"},"chat":{"id":98765,"title":"SomeChat"},"date":1436476562,"left_chat_participant":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"}}}]}'
         ));
 
         try {
@@ -327,5 +334,174 @@ final class GetUpdatesTest extends AbstractCallTest {
         $this->assertSame(6, $audioUpdates[0]->getMessage()->getAudio()->getDuration());
         $this->assertSame(13826, $audioUpdates[0]->getMessage()->getAudio()->getFileSize());
         $this->assertEquals('AWWAWWSDRWWSA', $audioUpdates[0]->getMessage()->getAudio()->getFileId());
+        
+        // reply
+        $replyUpdates = $ClientMock->getUpdates();
+        $this->assertCount(1, $replyUpdates);
+        $this->assertEquals(709393607, $replyUpdates[0]->getUpdateId());
+        $this->assertInstanceOf(Message::class, $replyUpdates[0]->getMessage());
+        $this->assertEquals(49, $replyUpdates[0]->getMessage()->getMessageId());
+        $this->assertEquals(1436476562, $replyUpdates[0]->getMessage()->getDate());
+        $this->assertInstanceOf(User::class, $replyUpdates[0]->getMessage()->getFrom());
+        $this->assertEquals(34567, $replyUpdates[0]->getMessage()->getFrom()->getId());
+        $this->assertEquals('Alexey', $replyUpdates[0]->getMessage()->getFrom()->getFirstName());
+        $this->assertEquals('Maslov', $replyUpdates[0]->getMessage()->getFrom()->getLastName());
+        $this->assertEmpty($replyUpdates[0]->getMessage()->getFrom()->getUsername());
+        $this->assertInstanceOf(User::class, $replyUpdates[0]->getMessage()->getChat());
+        $this->assertEquals(34567, $replyUpdates[0]->getMessage()->getChat()->getId());
+        $this->assertEquals('Alexey', $replyUpdates[0]->getMessage()->getChat()->getFirstName());
+        $this->assertEquals('Maslov', $replyUpdates[0]->getMessage()->getChat()->getLastName());
+        $this->assertEmpty($replyUpdates[0]->getMessage()->getChat()->getUsername());
+        $this->assertEquals('Op', $replyUpdates[0]->getMessage()->getText());
+        $this->assertInstanceOf(Message::class, $replyUpdates[0]->getMessage()->getReplyToMessage());
+        $this->assertSame(48, $replyUpdates[0]->getMessage()->getReplyToMessage()->getMessageId());
+        $this->assertInstanceOf(User::class, $replyUpdates[0]->getMessage()->getReplyToMessage()->getFrom());
+        $this->assertEquals(34567, $replyUpdates[0]->getMessage()->getReplyToMessage()->getFrom()->getId());
+        $this->assertEquals('Alexey', $replyUpdates[0]->getMessage()->getReplyToMessage()->getFrom()->getFirstName());
+        $this->assertEquals('Maslov', $replyUpdates[0]->getMessage()->getReplyToMessage()->getFrom()->getLastName());
+        $this->assertEmpty($replyUpdates[0]->getMessage()->getReplyToMessage()->getFrom()->getUsername());
+        $this->assertInstanceOf(User::class, $replyUpdates[0]->getMessage()->getReplyToMessage()->getChat());
+        $this->assertEquals(34567, $replyUpdates[0]->getMessage()->getReplyToMessage()->getChat()->getId());
+        $this->assertEquals('Alexey', $replyUpdates[0]->getMessage()->getReplyToMessage()->getChat()->getFirstName());
+        $this->assertEquals('Maslov', $replyUpdates[0]->getMessage()->getReplyToMessage()->getChat()->getLastName());
+        $this->assertEmpty($replyUpdates[0]->getMessage()->getReplyToMessage()->getChat()->getUsername());
+        $this->assertSame(1436475797, $replyUpdates[0]->getMessage()->getReplyToMessage()->getDate());
+        $this->assertInstanceOf(Audio::class, $replyUpdates[0]->getMessage()->getReplyToMessage()->getAudio());
+        $this->assertSame(4, $replyUpdates[0]->getMessage()->getReplyToMessage()->getAudio()->getDuration());
+        $this->assertSame(9345, $replyUpdates[0]->getMessage()->getReplyToMessage()->getAudio()->getFileSize());
+        $this->assertEquals('ABCDEFGHIJKLMNOPQRSTUVXYZBBAA_OO', $replyUpdates[0]->getMessage()->getReplyToMessage()->getAudio()->getFileId());
+
+        // change title
+        $titleUpdates = $ClientMock->getUpdates();
+        $this->assertCount(1, $titleUpdates);
+        $this->assertEquals(709393607, $titleUpdates[0]->getUpdateId());
+        $this->assertInstanceOf(Message::class, $titleUpdates[0]->getMessage());
+        $this->assertEquals(49, $titleUpdates[0]->getMessage()->getMessageId());
+        $this->assertEquals(1436476562, $titleUpdates[0]->getMessage()->getDate());
+        $this->assertInstanceOf(User::class, $titleUpdates[0]->getMessage()->getFrom());
+        $this->assertEquals(34567, $titleUpdates[0]->getMessage()->getFrom()->getId());
+        $this->assertEquals('Alexey', $titleUpdates[0]->getMessage()->getFrom()->getFirstName());
+        $this->assertEquals('Maslov', $titleUpdates[0]->getMessage()->getFrom()->getLastName());
+        $this->assertEmpty($titleUpdates[0]->getMessage()->getFrom()->getUsername());
+        $this->assertInstanceOf(GroupChat::class, $titleUpdates[0]->getMessage()->getChat());
+        $this->assertEquals(98765, $titleUpdates[0]->getMessage()->getChat()->getId());
+        $this->assertEquals('SomeChat', $titleUpdates[0]->getMessage()->getChat()->getTitle());
+        $this->assertEquals('text', $titleUpdates[0]->getMessage()->getText());
+        $this->assertEquals('some_title', $titleUpdates[0]->getMessage()->getNewChatTitle());
+
+        // group chat created 
+        $updates = $ClientMock->getUpdates();
+        $this->assertCount(1, $updates);
+        $this->assertEquals(709393607, $updates[0]->getUpdateId());
+        $this->assertInstanceOf(Message::class, $updates[0]->getMessage());
+        $this->assertEquals(49, $updates[0]->getMessage()->getMessageId());
+        $this->assertEquals(1436476562, $updates[0]->getMessage()->getDate());
+        $this->assertInstanceOf(User::class, $updates[0]->getMessage()->getFrom());
+        $this->assertEquals(34567, $updates[0]->getMessage()->getFrom()->getId());
+        $this->assertEquals('Alexey', $updates[0]->getMessage()->getFrom()->getFirstName());
+        $this->assertEquals('Maslov', $updates[0]->getMessage()->getFrom()->getLastName());
+        $this->assertEmpty($updates[0]->getMessage()->getFrom()->getUsername());
+        $this->assertInstanceOf(GroupChat::class, $updates[0]->getMessage()->getChat());
+        $this->assertEquals(98765, $updates[0]->getMessage()->getChat()->getId());
+        $this->assertEquals('SomeChat', $updates[0]->getMessage()->getChat()->getTitle());
+        $this->assertEquals('hello', $updates[0]->getMessage()->getText());
+        $this->assertTrue($updates[0]->getMessage()->isGroupChatCreated());
+
+        // chat photo delete
+        $updates = $ClientMock->getUpdates();
+        $this->assertCount(1, $updates);
+        $this->assertEquals(709393607, $updates[0]->getUpdateId());
+        $this->assertInstanceOf(Message::class, $updates[0]->getMessage());
+        $this->assertEquals(49, $updates[0]->getMessage()->getMessageId());
+        $this->assertEquals(1436476562, $updates[0]->getMessage()->getDate());
+        $this->assertInstanceOf(User::class, $updates[0]->getMessage()->getFrom());
+        $this->assertEquals(34567, $updates[0]->getMessage()->getFrom()->getId());
+        $this->assertEquals('Alexey', $updates[0]->getMessage()->getFrom()->getFirstName());
+        $this->assertEquals('Maslov', $updates[0]->getMessage()->getFrom()->getLastName());
+        $this->assertEmpty($updates[0]->getMessage()->getFrom()->getUsername());
+        $this->assertInstanceOf(GroupChat::class, $updates[0]->getMessage()->getChat());
+        $this->assertEquals(98765, $updates[0]->getMessage()->getChat()->getId());
+        $this->assertEquals('SomeChat', $updates[0]->getMessage()->getChat()->getTitle());
+        $this->assertEquals('ooops', $updates[0]->getMessage()->getText());
+        $this->assertTrue($updates[0]->getMessage()->isDeleteChatPhoto());
+
+        // new chat photo
+        $updates = $ClientMock->getUpdates();
+        $this->assertCount(1, $updates);
+        $this->assertEquals(709393607, $updates[0]->getUpdateId());
+        $this->assertInstanceOf(Message::class, $updates[0]->getMessage());
+        $this->assertEquals(49, $updates[0]->getMessage()->getMessageId());
+        $this->assertEquals(1436476562, $updates[0]->getMessage()->getDate());
+        $this->assertInstanceOf(User::class, $updates[0]->getMessage()->getFrom());
+        $this->assertEquals(34567, $updates[0]->getMessage()->getFrom()->getId());
+        $this->assertEquals('Alexey', $updates[0]->getMessage()->getFrom()->getFirstName());
+        $this->assertEquals('Maslov', $updates[0]->getMessage()->getFrom()->getLastName());
+        $this->assertEmpty($updates[0]->getMessage()->getFrom()->getUsername());
+        $this->assertInstanceOf(GroupChat::class, $updates[0]->getMessage()->getChat());
+        $this->assertEquals(98765, $updates[0]->getMessage()->getChat()->getId());
+        $this->assertEquals('SomeChat', $updates[0]->getMessage()->getChat()->getTitle());
+        $this->assertCount(4, $updates[0]->getMessage()->getNewChatPhoto());
+        $this->assertInstanceOf(PhotoSize::class, $updates[0]->getMessage()->getNewChatPhoto()[0]);
+        $this->assertEquals('ABCDEFGHIJKLMNOPQRSTUV12345', $updates[0]->getMessage()->getNewChatPhoto()[0]->getFileId());
+        $this->assertSame(1105, $updates[0]->getMessage()->getNewChatPhoto()[0]->getFileSize());
+        $this->assertSame(67, $updates[0]->getMessage()->getNewChatPhoto()[0]->getWidth());
+        $this->assertSame(90, $updates[0]->getMessage()->getNewChatPhoto()[0]->getHeight());
+        $this->assertInstanceOf(PhotoSize::class, $updates[0]->getMessage()->getNewChatPhoto()[1]);
+        $this->assertEquals('ABCDEFGHIJKLMNOPQRSTUV123456', $updates[0]->getMessage()->getNewChatPhoto()[1]->getFileId());
+        $this->assertSame(13517, $updates[0]->getMessage()->getNewChatPhoto()[1]->getFileSize());
+        $this->assertSame(239, $updates[0]->getMessage()->getNewChatPhoto()[1]->getWidth());
+        $this->assertSame(320, $updates[0]->getMessage()->getNewChatPhoto()[1]->getHeight());
+        $this->assertInstanceOf(PhotoSize::class, $updates[0]->getMessage()->getNewChatPhoto()[2]);
+        $this->assertEquals('ABCDEFGHIJKLMNOPQRSTUV123457', $updates[0]->getMessage()->getNewChatPhoto()[2]->getFileId());
+        $this->assertSame(64033, $updates[0]->getMessage()->getNewChatPhoto()[2]->getFileSize());
+        $this->assertSame(597, $updates[0]->getMessage()->getNewChatPhoto()[2]->getWidth());
+        $this->assertSame(800, $updates[0]->getMessage()->getNewChatPhoto()[2]->getHeight());
+        $this->assertInstanceOf(PhotoSize::class, $updates[0]->getMessage()->getNewChatPhoto()[3]);
+        $this->assertEquals('ABCDEFGHIJKLMNOPQRSTUV123458', $updates[0]->getMessage()->getNewChatPhoto()[3]->getFileId());
+        $this->assertSame(124021, $updates[0]->getMessage()->getNewChatPhoto()[3]->getFileSize());
+        $this->assertSame(956, $updates[0]->getMessage()->getNewChatPhoto()[3]->getWidth());
+        $this->assertSame(1280, $updates[0]->getMessage()->getNewChatPhoto()[3]->getHeight());
+
+        // new chat user
+        $updates = $ClientMock->getUpdates();
+        $this->assertCount(1, $updates);
+        $this->assertEquals(709393607, $updates[0]->getUpdateId());
+        $this->assertInstanceOf(Message::class, $updates[0]->getMessage());
+        $this->assertEquals(49, $updates[0]->getMessage()->getMessageId());
+        $this->assertEquals(1436476562, $updates[0]->getMessage()->getDate());
+        $this->assertInstanceOf(User::class, $updates[0]->getMessage()->getFrom());
+        $this->assertEquals(34567, $updates[0]->getMessage()->getFrom()->getId());
+        $this->assertEquals('Alexey', $updates[0]->getMessage()->getFrom()->getFirstName());
+        $this->assertEquals('Maslov', $updates[0]->getMessage()->getFrom()->getLastName());
+        $this->assertEmpty($updates[0]->getMessage()->getFrom()->getUsername());
+        $this->assertInstanceOf(GroupChat::class, $updates[0]->getMessage()->getChat());
+        $this->assertEquals(98765, $updates[0]->getMessage()->getChat()->getId());
+        $this->assertEquals('SomeChat', $updates[0]->getMessage()->getChat()->getTitle());
+        $this->assertInstanceOf(User::class, $updates[0]->getMessage()->getNewChatParticipant());
+        $this->assertEquals(123456, $updates[0]->getMessage()->getNewChatParticipant()->getId());
+        $this->assertEquals('Alexey', $updates[0]->getMessage()->getNewChatParticipant()->getFirstName());
+        $this->assertEquals('Maslov', $updates[0]->getMessage()->getNewChatParticipant()->getLastName());
+        $this->assertEquals('alxmsl', $updates[0]->getMessage()->getNewChatParticipant()->getUsername());
+
+        // chat user left
+        $updates = $ClientMock->getUpdates();
+        $this->assertCount(1, $updates);
+        $this->assertEquals(709393607, $updates[0]->getUpdateId());
+        $this->assertInstanceOf(Message::class, $updates[0]->getMessage());
+        $this->assertEquals(49, $updates[0]->getMessage()->getMessageId());
+        $this->assertEquals(1436476562, $updates[0]->getMessage()->getDate());
+        $this->assertInstanceOf(User::class, $updates[0]->getMessage()->getFrom());
+        $this->assertEquals(34567, $updates[0]->getMessage()->getFrom()->getId());
+        $this->assertEquals('Alexey', $updates[0]->getMessage()->getFrom()->getFirstName());
+        $this->assertEquals('Maslov', $updates[0]->getMessage()->getFrom()->getLastName());
+        $this->assertEmpty($updates[0]->getMessage()->getFrom()->getUsername());
+        $this->assertInstanceOf(GroupChat::class, $updates[0]->getMessage()->getChat());
+        $this->assertEquals(98765, $updates[0]->getMessage()->getChat()->getId());
+        $this->assertEquals('SomeChat', $updates[0]->getMessage()->getChat()->getTitle());
+        $this->assertInstanceOf(User::class, $updates[0]->getMessage()->getLeftChatParticipant());
+        $this->assertEquals(123456, $updates[0]->getMessage()->getLeftChatParticipant()->getId());
+        $this->assertEquals('Alexey', $updates[0]->getMessage()->getLeftChatParticipant()->getFirstName());
+        $this->assertEquals('Maslov', $updates[0]->getMessage()->getLeftChatParticipant()->getLastName());
+        $this->assertEquals('alxmsl', $updates[0]->getMessage()->getLeftChatParticipant()->getUsername());
     }
 }

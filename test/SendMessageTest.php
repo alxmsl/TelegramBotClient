@@ -18,6 +18,7 @@
 namespace alxmsl\Test\Telegram\Bot\Type;
 
 use alxmsl\Telegram\Bot\Exception\UnsuccessfulException;
+use alxmsl\Telegram\Bot\Type\GroupChat;
 use alxmsl\Telegram\Bot\Type\Message;
 use alxmsl\Telegram\Bot\Type\User;
 
@@ -33,6 +34,7 @@ final class SendMessageTest extends AbstractCallTest {
             , '{"ok":false,"error_code":400,"description":"Error: Bad Request: text is empty"}'
             , '{"ok":false,"error_code":400,"description":"Error: Bad Request: message not found"}'
             , '{"ok":true,"result":{"message_id":19,"from":{"id":122334455,"first_name":"alxmslClientBot","username":"alxmslClientBot"},"chat":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"},"date":1436218862,"text":"hello"}}'
+            , '{"ok":true,"result":{"message_id":19,"from":{"id":122334455,"first_name":"alxmslClientBot","username":"alxmslClientBot"},"chat":{"id":98765,"title":"SomeChat"},"date":1436218862,"text":"hello"}}'
         ));
 
         try {
@@ -67,20 +69,34 @@ final class SendMessageTest extends AbstractCallTest {
             $this->assertEquals('Error: Bad Request: message not found', $Ex->getMessage());
         }
 
-        $Result = $ClientMock->sendMessage(1, '');
-        $this->assertInstanceOf(Message::class, $Result);
-        $this->assertEquals(19, $Result->getMessageId());
-        $this->assertEquals(1436218862, $Result->getDate());
-        $this->assertEquals('hello', $Result->getText());
-        $this->assertInstanceOf(User::class, $Result->getFrom());
-        $this->assertEquals(122334455, $Result->getFrom()->getId());
-        $this->assertEquals('alxmslClientBot', $Result->getFrom()->getFirstName());
-        $this->assertEmpty($Result->getFrom()->getLastName());
-        $this->assertEquals('alxmslClientBot', $Result->getFrom()->getUsername());
-        $this->assertInstanceOf(User::class, $Result->getChat());
-        $this->assertEquals(123456, $Result->getChat()->getId());
-        $this->assertEquals('Alexey', $Result->getChat()->getFirstName());
-        $this->assertEquals('Maslov', $Result->getChat()->getLastName());
-        $this->assertEquals('alxmsl', $Result->getChat()->getUsername());
+        $Result1 = $ClientMock->sendMessage(1, '');
+        $this->assertInstanceOf(Message::class, $Result1);
+        $this->assertEquals(19, $Result1->getMessageId());
+        $this->assertEquals(1436218862, $Result1->getDate());
+        $this->assertEquals('hello', $Result1->getText());
+        $this->assertInstanceOf(User::class, $Result1->getFrom());
+        $this->assertEquals(122334455, $Result1->getFrom()->getId());
+        $this->assertEquals('alxmslClientBot', $Result1->getFrom()->getFirstName());
+        $this->assertEmpty($Result1->getFrom()->getLastName());
+        $this->assertEquals('alxmslClientBot', $Result1->getFrom()->getUsername());
+        $this->assertInstanceOf(User::class, $Result1->getChat());
+        $this->assertEquals(123456, $Result1->getChat()->getId());
+        $this->assertEquals('Alexey', $Result1->getChat()->getFirstName());
+        $this->assertEquals('Maslov', $Result1->getChat()->getLastName());
+        $this->assertEquals('alxmsl', $Result1->getChat()->getUsername());
+
+        $Result2 = $ClientMock->sendMessage(1, '');
+        $this->assertInstanceOf(Message::class, $Result2);
+        $this->assertEquals(19, $Result2->getMessageId());
+        $this->assertEquals(1436218862, $Result2->getDate());
+        $this->assertEquals('hello', $Result2->getText());
+        $this->assertInstanceOf(User::class, $Result2->getFrom());
+        $this->assertEquals(122334455, $Result2->getFrom()->getId());
+        $this->assertEquals('alxmslClientBot', $Result2->getFrom()->getFirstName());
+        $this->assertEmpty($Result2->getFrom()->getLastName());
+        $this->assertEquals('alxmslClientBot', $Result2->getFrom()->getUsername());
+        $this->assertInstanceOf(GroupChat::class, $Result2->getChat());
+        $this->assertEquals(98765, $Result2->getChat()->getId());
+        $this->assertEquals('SomeChat', $Result2->getChat()->getTitle());
     }
 }
