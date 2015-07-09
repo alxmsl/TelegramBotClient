@@ -167,7 +167,7 @@ class Message implements ObjectInitializedInterface {
      * @return $this self instance
      */
     private function setReplyToMessage(stdClass $ReplyToMessage) {
-        $this->ReplyToMessage = Message::initializeByObject($ReplyToMessage);
+        $this->ReplyToMessage = self::initializeByObject($ReplyToMessage);
         return $this;
     }
     
