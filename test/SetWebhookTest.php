@@ -42,6 +42,6 @@ final class SetWebhookTest extends AbstractCallTest {
 
         $this->assertTrue($ClientMock->setWebhook(''));
         $this->assertTrue($ClientMock->setWebhook(''));
-        $this->assertTrue($ClientMock->setWebhook(''));
+        $this->assertTrue($ClientMock->removeWebhook(''));
     }
 }
