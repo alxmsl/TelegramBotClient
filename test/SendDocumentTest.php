@@ -21,6 +21,7 @@ use alxmsl\Telegram\Bot\Exception\UnsuccessfulException;
 use alxmsl\Telegram\Bot\Type\Document;
 use alxmsl\Telegram\Bot\Type\Message;
 use alxmsl\Telegram\Bot\Type\PhotoSize;
+use alxmsl\Telegram\Bot\Type\ReplyKeyboardMarkup;
 use alxmsl\Telegram\Bot\Type\User;
 
 /**
@@ -38,7 +39,7 @@ final class SendDocumentTest extends AbstractCallTest {
         ));
 
         try {
-            $ClientMock->sendDocument(1, '');
+            $ClientMock->sendDocument(1, '', 17);
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(401, $Ex->getCode());
@@ -46,7 +47,7 @@ final class SendDocumentTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendDocument(1, '');
+            $ClientMock->sendDocument(1, '', null, new ReplyKeyboardMarkup([['a']]));
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
@@ -54,14 +55,14 @@ final class SendDocumentTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendDocument(1, '');
+            $ClientMock->sendDocumentByFileId(1, '');
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
             $this->assertEquals('Error: Bad Request: there is no document in request', $Ex->getMessage());
         }
 
-        $Result1 = $ClientMock->sendDocument(1, '');
+        $Result1 = $ClientMock->sendDocumentByFileName(1, __FILE__);
         $this->assertInstanceOf(Message::class, $Result1);
         $this->assertEquals(29, $Result1->getMessageId());
         $this->assertEquals(1436245806, $Result1->getDate());
