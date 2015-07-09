@@ -36,7 +36,7 @@ final class SendVideoTest extends AbstractCallTest {
             , '{"ok":false,"error_code":400,"description":"Error: Bad Request: Wrong persistent file_id specified: can\'t unserialize it. Wrong last symbol"}'
             , '{"ok":false,"error_code":400,"description":"Error: Bad Request: Type of file to send mismatch"}'
             , '{"ok":true,"result":{"message_id":33,"from":{"id":122334455,"first_name":"alxmslClientBot","username":"alxmslClientBot"},"chat":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"},"date":1436257015,"video":{"duration":39,"caption":"","width":360,"height":640,"thumb":{"file_id":"AAQCTHUMB","file_size":2521,"width":49,"height":90},"file_id":"AAQC-FULL","file_size":4204035}}}'
-            , '{"ok":true,"result":{"message_id":34,"from":{"id":122334455,"first_name":"alxmslClientBot","username":"alxmslClientBot"},"chat":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"},"date":1436257020,"video":{"duration":39,"caption":"","mime_type":"video/mp4","width":360,"height":640,"thumb":{"file_id":"AAQCTHUMB","file_size":2521,"width":49,"height":90},"file_id":"AAQC-FULL","file_size":4204035}}}'
+            , '{"ok":true,"result":{"message_id":34,"from":{"id":122334455,"first_name":"alxmslClientBot","username":"alxmslClientBot"},"chat":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"},"date":1436257020,"video":{"duration":39,"caption":"","mime_type":"video\/mp4","width":360,"height":640,"thumb":{"file_id":"AAQCTHUMB","file_size":2521,"width":49,"height":90},"file_id":"AAQC-FULL","file_size":4204035}}}'
         ));
 
         try {

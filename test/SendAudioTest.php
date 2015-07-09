@@ -34,6 +34,7 @@ final class SendAudioTest extends AbstractCallTest {
             , '{"ok":false,"error_code":400,"description":"Error: Bad Request: Wrong persistent file_id specified: can\'t unserialize it. Wrong last symbol"}'
             , '{"ok":false,"error_code":400,"description":"Error: Bad Request: Type of file to send mismatch"}'
             , '{"ok":true,"result":{"message_id":21,"from":{"id":122334455,"first_name":"alxmslClientBot","username":"alxmslClientBot"},"chat":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"},"date":1436243584,"audio":{"duration":6,"file_id":"AWWAWWSDRWWSA","file_size":13826}}}'
+            , '{"ok":true,"result":{"message_id":51,"from":{"id":122334455,"first_name":"alxmslClientBot","username":"alxmslClientBot"},"chat":{"id":123456,"first_name":"Alexey","last_name":"Maslov","username":"alxmsl"},"date":1436253584,"audio":{"duration":6,"mime_type":"audio\/mpeg3","file_id":"AWWAWWSDRWWSB","file_size":13826}}}'
         ));
 
         try {
@@ -68,23 +69,44 @@ final class SendAudioTest extends AbstractCallTest {
             $this->assertEquals('Error: Bad Request: Type of file to send mismatch', $Ex->getMessage());
         }
 
-        $Result = $ClientMock->sendAudio(1, '');
-        $this->assertInstanceOf(Message::class, $Result);
-        $this->assertEquals(21, $Result->getMessageId());
-        $this->assertEquals(1436243584, $Result->getDate());
-        $this->assertInstanceOf(User::class, $Result->getFrom());
-        $this->assertEquals(122334455, $Result->getFrom()->getId());
-        $this->assertEquals('alxmslClientBot', $Result->getFrom()->getFirstName());
-        $this->assertEmpty($Result->getFrom()->getLastName());
-        $this->assertEquals('alxmslClientBot', $Result->getFrom()->getUsername());
-        $this->assertInstanceOf(User::class, $Result->getChat());
-        $this->assertEquals(123456, $Result->getChat()->getId());
-        $this->assertEquals('Alexey', $Result->getChat()->getFirstName());
-        $this->assertEquals('Maslov', $Result->getChat()->getLastName());
-        $this->assertEquals('alxmsl', $Result->getChat()->getUsername());
-        $this->assertInstanceOf(Audio::class, $Result->getAudio());
-        $this->assertSame(6, $Result->getAudio()->getDuration());
-        $this->assertSame(13826, $Result->getAudio()->getFileSize());
-        $this->assertEquals('AWWAWWSDRWWSA', $Result->getAudio()->getFileId());
+        $Result1 = $ClientMock->sendAudio(1, '');
+        $this->assertInstanceOf(Message::class, $Result1);
+        $this->assertEquals(21, $Result1->getMessageId());
+        $this->assertEquals(1436243584, $Result1->getDate());
+        $this->assertInstanceOf(User::class, $Result1->getFrom());
+        $this->assertEquals(122334455, $Result1->getFrom()->getId());
+        $this->assertEquals('alxmslClientBot', $Result1->getFrom()->getFirstName());
+        $this->assertEmpty($Result1->getFrom()->getLastName());
+        $this->assertEquals('alxmslClientBot', $Result1->getFrom()->getUsername());
+        $this->assertInstanceOf(User::class, $Result1->getChat());
+        $this->assertEquals(123456, $Result1->getChat()->getId());
+        $this->assertEquals('Alexey', $Result1->getChat()->getFirstName());
+        $this->assertEquals('Maslov', $Result1->getChat()->getLastName());
+        $this->assertEquals('alxmsl', $Result1->getChat()->getUsername());
+        $this->assertInstanceOf(Audio::class, $Result1->getAudio());
+        $this->assertSame(6, $Result1->getAudio()->getDuration());
+        $this->assertSame(13826, $Result1->getAudio()->getFileSize());
+        $this->assertEquals('AWWAWWSDRWWSA', $Result1->getAudio()->getFileId());
+        $this->assertEmpty($Result1->getAudio()->getMimeType());
+
+        $Result2 = $ClientMock->sendAudio(1, '');
+        $this->assertInstanceOf(Message::class, $Result2);
+        $this->assertEquals(51, $Result2->getMessageId());
+        $this->assertEquals(1436253584, $Result2->getDate());
+        $this->assertInstanceOf(User::class, $Result2->getFrom());
+        $this->assertEquals(122334455, $Result2->getFrom()->getId());
+        $this->assertEquals('alxmslClientBot', $Result2->getFrom()->getFirstName());
+        $this->assertEmpty($Result2->getFrom()->getLastName());
+        $this->assertEquals('alxmslClientBot', $Result2->getFrom()->getUsername());
+        $this->assertInstanceOf(User::class, $Result2->getChat());
+        $this->assertEquals(123456, $Result2->getChat()->getId());
+        $this->assertEquals('Alexey', $Result2->getChat()->getFirstName());
+        $this->assertEquals('Maslov', $Result2->getChat()->getLastName());
+        $this->assertEquals('alxmsl', $Result2->getChat()->getUsername());
+        $this->assertInstanceOf(Audio::class, $Result2->getAudio());
+        $this->assertSame(6, $Result2->getAudio()->getDuration());
+        $this->assertSame(13826, $Result2->getAudio()->getFileSize());
+        $this->assertEquals('AWWAWWSDRWWSB', $Result2->getAudio()->getFileId());
+        $this->assertEquals('audio/mpeg3', $Result2->getAudio()->getMimeType());
     }
 }
