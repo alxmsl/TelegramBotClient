@@ -532,7 +532,7 @@ class Client {
      * Call bot method and return result instance
      * @param string $methodName API method name
      * @param array $parameters method call parameters
-     * @param Closure $BuildStrategy build strategy for response result(s)
+     * @param Closure|null $BuildStrategy build strategy for response result(s)
      * @return mixed response result instance
      * @throws UnsuccessfulException exception for unsuccessful request responses
      */
