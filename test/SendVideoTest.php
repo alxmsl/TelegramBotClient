@@ -17,6 +17,7 @@
 
 namespace alxmsl\Test\Telegram\Bot\Type;
 use alxmsl\Telegram\Bot\Exception\UnsuccessfulException;
+use alxmsl\Telegram\Bot\Type\ForceReply;
 use alxmsl\Telegram\Bot\Type\Message;
 use alxmsl\Telegram\Bot\Type\PhotoSize;
 use alxmsl\Telegram\Bot\Type\User;
@@ -40,7 +41,7 @@ final class SendVideoTest extends AbstractCallTest {
         ));
 
         try {
-            $ClientMock->sendVideo(1, '');
+            $ClientMock->sendVideo(1, '', 17);
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(401, $Ex->getCode());
@@ -48,7 +49,7 @@ final class SendVideoTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendVideo(1, '');
+            $ClientMock->sendVideo(1, '', null, new ForceReply());
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
@@ -56,7 +57,7 @@ final class SendVideoTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendVideo(1, '');
+            $ClientMock->sendVideoByFileId(1, '');
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
@@ -64,7 +65,7 @@ final class SendVideoTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendVideo(1, '');
+            $ClientMock->sendVideoByFileName(1, __FILE__);
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
