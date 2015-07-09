@@ -89,28 +89,35 @@ class Message implements ObjectInitializedInterface {
     }
     
     /**
-     * @var Chat|User|GroupChat conversation the message belongs to — user in case of a private $message, GroupChat in case of a group
+     * @var GroupChat conversation the message belongs to — GroupChat in case of a group message
      */
-    private $Chat = null;
-    
+    private $GroupChat = null;
+
     /**
-     * @param stdClass $Chat conversation the message belongs to — user in case of a private $message, GroupChat in case of a group
+     * @var User conversation the message belongs to — user in case of a private message
+     */
+    private $User = null;
+
+    /**
+     * @param stdClass $Chat conversation the message belongs to — user in case of a private $message, GroupChat in case
+     * of a group
      * @return $this self instance
      */
     private function setChat(stdClass $Chat) {
         if (isset($Chat->title)) {
-            $this->Chat = GroupChat::initializeByObject($Chat);
+            $this->GroupChat = GroupChat::initializeByObject($Chat);
         } else {
-            $this->Chat = User::initializeByObject($Chat);
+            $this->User = User::initializeByObject($Chat);
         }
         return $this;
     }
     
     /**
-     * @return User|GroupChat conversation the message belongs to — user in case of a private $message, GroupChat in case of a group
+     * @return User|GroupChat conversation the message belongs to — user in case of a private $message, GroupChat in
+     * case of a group
      */
     public function getChat() {
-        return $this->Chat;
+        return $this->GroupChat ?: $this->User;
     }
     
     /**
