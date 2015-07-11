@@ -551,6 +551,7 @@ class Client {
      * @param string $methodName API method name
      * @param array $parameters method call parameters
      * @return string response data
+     * @codeCoverageIgnore
      */
     public function call($methodName, array $parameters = []) {
         try {
