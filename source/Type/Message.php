@@ -126,11 +126,13 @@ class Message implements ObjectInitializedInterface {
     private $ForwardFrom = null;
     
     /**
-     * @param stdClass $ForwardFrom for forwarded messages, sender of the original message
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setForwardFrom(stdClass $ForwardFrom) {
-        $this->ForwardFrom = User::initializeByObject($ForwardFrom);
+    private function trySetForwardFrom(stdClass $Object) {
+        if (isset($Object->forward_from)) {
+            $this->ForwardFrom = User::initializeByObject($Object->forward_from);
+        }
         return $this;
     }
     
@@ -147,11 +149,13 @@ class Message implements ObjectInitializedInterface {
     private $forwardDate = 0;
     
     /**
-     * @param int $forwardDate for forwarded messages, date the original message was sent in Unix time
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setForwardDate($forwardDate) {
-        $this->forwardDate = (int) $forwardDate;
+    private function trySetForwardDate(stdClass $Object) {
+        if (isset($Object->forward_date)) {
+            $this->forwardDate = (int) $Object->forward_date;
+        }
         return $this;
     }
     
@@ -169,12 +173,13 @@ class Message implements ObjectInitializedInterface {
     private $ReplyToMessage = null;
     
     /**
-     * @param stdClass $ReplyToMessage for replies, the original message. Note that the Message object in this field
-     * will not contain further ReplyToMessage fields even if it itself is a reply.
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setReplyToMessage(stdClass $ReplyToMessage) {
-        $this->ReplyToMessage = self::initializeByObject($ReplyToMessage);
+    private function trySetReplyToMessage(stdClass $Object) {
+        if (isset($Object->reply_to_message)) {
+            $this->ReplyToMessage = self::initializeByObject($Object->reply_to_message);
+        }
         return $this;
     }
     
@@ -362,12 +367,13 @@ class Message implements ObjectInitializedInterface {
     private $NewChatParticipant = null;
     
     /**
-     * @param stdClass $NewChatParticipant a new member was added to the group, information about them ($this member 
-     * may be bot itself)
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setNewChatParticipant(stdClass $NewChatParticipant) {
-        $this->NewChatParticipant = User::initializeByObject($NewChatParticipant);
+    private function trySetNewChatParticipant(stdClass $Object) {
+        if (isset($Object->new_chat_participant)) {
+            $this->NewChatParticipant = User::initializeByObject($Object->new_chat_participant);
+        }
         return $this;
     }
     
@@ -384,12 +390,13 @@ class Message implements ObjectInitializedInterface {
     private $LeftChatParticipant = '';
     
     /**
-     * @param stdClass $LeftChatParticipant a member was removed from the group, information about them ($this member 
-     * may be bot itself)
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setLeftChatParticipant(stdClass $LeftChatParticipant) {
-        $this->LeftChatParticipant = User::initializeByObject($LeftChatParticipant);
+    private function trySetLeftChatParticipant(stdClass $Object) {
+        if (isset($Object->left_chat_participant)) {
+            $this->LeftChatParticipant = User::initializeByObject($Object->left_chat_participant);
+        }
         return $this;
     }
     
@@ -406,11 +413,13 @@ class Message implements ObjectInitializedInterface {
     private $newChatTitle = '';
     
     /**
-     * @param string $newChatTitle a group title was changed to this value
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setNewChatTitle($newChatTitle) {
-        $this->newChatTitle = (string) $newChatTitle;
+    private function trySetNewChatTitle(stdClass $Object) {
+        if (isset($Object->new_chat_title)) {
+            $this->newChatTitle = (string) $Object->new_chat_title;
+        }
         return $this;
     }
     
@@ -427,12 +436,14 @@ class Message implements ObjectInitializedInterface {
     private $newChatPhoto = [];
     
     /**
-     * @param stdClass[] $newChatPhoto a group photo was change to this value
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setNewChatPhoto($newChatPhoto) {
-        foreach ($newChatPhoto as $size) {
-            $this->newChatPhoto[] = PhotoSize::initializeByObject($size);
+    private function trySetNewChatPhoto(stdClass $Object) {
+        if (isset($Object->new_chat_photo)) {
+            foreach ($Object->new_chat_photo as $size) {
+                $this->newChatPhoto[] = PhotoSize::initializeByObject($size);
+            }
         }
         return $this;
     }
@@ -450,11 +461,13 @@ class Message implements ObjectInitializedInterface {
     private $isDeleteChatPhoto = false;
     
     /**
-     * @param bool $isDeleteChatPhoto informs that the group photo was deleted
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setIsDeleteChatPhoto($isDeleteChatPhoto) {
-        $this->isDeleteChatPhoto = (bool) $isDeleteChatPhoto;
+    private function trySetIsDeleteChatPhoto(stdClass $Object) {
+        if (isset($Object->delete_chat_photo)) {
+            $this->isDeleteChatPhoto = (bool) $Object->delete_chat_photo;
+        }
         return $this;
     }
     
@@ -471,11 +484,13 @@ class Message implements ObjectInitializedInterface {
     private $isGroupChatCreated = false;
     
     /**
-     * @param bool $isGroupChatCreated informs that the group has been created
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setIsGroupChatCreated($isGroupChatCreated) {
-        $this->isGroupChatCreated = (bool) $isGroupChatCreated;
+    private function trySetIsGroupChatCreated(stdClass $Object) {
+        if (isset($Object->group_chat_created)) {
+            $this->isGroupChatCreated = (bool) $Object->group_chat_created;
+        }
         return $this;
     }
     
@@ -488,8 +503,9 @@ class Message implements ObjectInitializedInterface {
 
     /**
      * @param stdClass $Object message data object
+     * @return $this self instance
      */
-    private function setMessageData(stdClass $Object) {
+    private function trySetMessageData(stdClass $Object) {
         if (isset($Object->text)) {
             $this->setText($Object->text);
         } else if (isset($Object->audio)) {
@@ -507,6 +523,7 @@ class Message implements ObjectInitializedInterface {
         } else if (isset($Object->location)) {
             $this->setLocation($Object->location);
         }
+        return $this;
     }
 
     /**
@@ -514,39 +531,20 @@ class Message implements ObjectInitializedInterface {
      */
     public static function initializeByObject(stdClass $Object) {
         $Message = new self();
-        $Message->setMessageId($Object->message_id);
-        $Message->setFrom($Object->from);
-        $Message->setDate($Object->date);
-        $Message->setChat($Object->chat);
-        $Message->setMessageData($Object);
-
-        if (isset($Object->forward_from)) {
-            $Message->setForwardFrom($Object->forward_from);
-        }
-        if (isset($Object->forward_date)) {
-            $Message->setForwardDate($Object->forward_date);
-        }
-        if (isset($Object->reply_to_message)) {
-            $Message->setReplyToMessage($Object->reply_to_message);
-        }
-        if (isset($Object->new_chat_participant)) {
-            $Message->setNewChatParticipant($Object->new_chat_participant);
-        }
-        if (isset($Object->left_chat_participant)) {
-            $Message->setLeftChatParticipant($Object->left_chat_participant);
-        }
-        if (isset($Object->new_chat_title)) {
-            $Message->setNewChatTitle($Object->new_chat_title);
-        }
-        if (isset($Object->new_chat_photo)) {
-            $Message->setNewChatPhoto($Object->new_chat_photo);
-        }
-        if (isset($Object->delete_chat_photo)) {
-            $Message->setIsDeleteChatPhoto($Object->delete_chat_photo);
-        }
-        if (isset($Object->group_chat_created)) {
-            $Message->setIsGroupChatCreated($Object->group_chat_created);
-        }
+        $Message->setMessageId($Object->message_id)
+            ->setFrom($Object->from)
+            ->setDate($Object->date)
+            ->setChat($Object->chat)
+            ->trySetMessageData($Object)
+            ->trySetForwardFrom($Object)
+            ->trySetForwardDate($Object)
+            ->trySetReplyToMessage($Object)
+            ->trySetNewChatParticipant($Object)
+            ->trySetLeftChatParticipant($Object)
+            ->trySetNewChatTitle($Object)
+            ->trySetNewChatPhoto($Object)
+            ->trySetIsDeleteChatPhoto($Object)
+            ->trySetIsGroupChatCreated($Object);
         return $Message;
     }
 }
