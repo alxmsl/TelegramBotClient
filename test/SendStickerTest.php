@@ -37,7 +37,7 @@ final class SendStickerTest extends AbstractCallTest {
         ));
 
         try {
-            $ClientMock->sendDocument(1, '');
+            $ClientMock->sendSticker(1, '');
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(401, $Ex->getCode());
@@ -45,7 +45,7 @@ final class SendStickerTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendDocument(1, '');
+            $ClientMock->sendStickerByFileId(1, '');
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
@@ -53,14 +53,14 @@ final class SendStickerTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendDocument(1, '');
+            $ClientMock->sendStickerByFileName(1, __FILE__);
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
             $this->assertEquals('Error: Bad Request: group chat not found', $Ex->getMessage());
         }
 
-        $Result = $ClientMock->sendDocument(1, '');
+        $Result = $ClientMock->sendSticker(1, '');
         $this->assertInstanceOf(Message::class, $Result);
         $this->assertEquals(32, $Result->getMessageId());
         $this->assertEquals(1436246317, $Result->getDate());
