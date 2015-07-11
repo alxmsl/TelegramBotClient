@@ -17,8 +17,10 @@
 
 namespace alxmsl\Test\Telegram\Bot\Type;
 
+use alxmsl\Network\Http\Request;
 use alxmsl\Telegram\Bot\Client;
 use PHPUnit_Framework_TestCase;
+use ReflectionClass;
 
 /**
  * Bot API client test
@@ -45,5 +47,21 @@ final class ClientTest extends PHPUnit_Framework_TestCase {
         $this->assertSame(123, $Client->getRequestTimeout());
         $Client->setRequestTimeout('abc123');
         $this->assertSame(0, $Client->getRequestTimeout());
+    }
+
+    public function testGetRequest() {
+        $Class  = new ReflectionClass(Client::class);
+        $Method = $Class->getMethod('getRequest');
+        $Method->setAccessible(true);
+
+        $Client = new Client();
+        $Client->setConnectTimeout(1)
+            ->setRequestTimeout(5);
+        /** @var Request $Request */
+        $Request = $Method->invoke($Client);
+        $this->assertInstanceOf(Request::class, $Request);
+        $this->assertEquals('https://api.telegram.org', $Request->getUrl());
+        $this->assertSame(1, $Request->getConnectTimeout());
+        $this->assertSame(5, $Request->getTimeout());
     }
 }
