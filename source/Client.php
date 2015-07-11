@@ -553,26 +553,29 @@ class Client {
      * @return string response data
      */
     public function call($methodName, array $parameters = []) {
-        $Request = $this->getRequest()
-            ->addUrlField(sprintf('bot%s', $this->token), $methodName);
-        if (!empty($parameters)) {
-            $Request->setPostData($parameters);
-        }
         try {
-            return $Request->send();
+            return $this->getRequest($methodName, $parameters)->send();
         } catch (HttpCodeException $Ex) {
             return $Ex->getMessage();
         }
     }
 
     /**
+     * Create request for method call
+     * @param string $methodName API method name
+     * @param array $parameters method call parameters
      * @return Request request object
      */
-    private function getRequest() {
+    private function getRequest($methodName, array $parameters = []) {
         $Request = new Request();
         $Request->setTransport(Request::TRANSPORT_CURL);
-        return $Request->setUrl(self::ENDPOINT_URI)
+        $Request->setUrl(self::ENDPOINT_URI)
             ->setConnectTimeout($this->getConnectTimeout())
-            ->setTimeout($this->getRequestTimeout());
+            ->setTimeout($this->getRequestTimeout())
+            ->addUrlField(sprintf('bot%s', $this->token), $methodName);
+        if (!empty($parameters)) {
+            $Request->setPostData($parameters);
+        }
+        return $Request;
     }
 }

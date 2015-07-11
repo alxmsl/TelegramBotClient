@@ -54,14 +54,24 @@ final class ClientTest extends PHPUnit_Framework_TestCase {
         $Method = $Class->getMethod('getRequest');
         $Method->setAccessible(true);
 
-        $Client = new Client();
+        $Client = new Client('AAA');
         $Client->setConnectTimeout(1)
             ->setRequestTimeout(5);
         /** @var Request $Request */
-        $Request = $Method->invoke($Client);
+        $Request = $Method->invoke($Client, 'getUpdates', [
+            'offset' => 2,
+            'limit'  => 1,
+        ]);
         $this->assertInstanceOf(Request::class, $Request);
         $this->assertEquals('https://api.telegram.org', $Request->getUrl());
         $this->assertSame(1, $Request->getConnectTimeout());
         $this->assertSame(5, $Request->getTimeout());
+        $this->assertEquals([
+            'botAAA' => 'getUpdates'
+        ], $Request->getUrlData());
+        $this->assertEquals([
+            'offset' => 2,
+            'limit'  => 1,
+        ], $Request->getPostData());
     }
 }
