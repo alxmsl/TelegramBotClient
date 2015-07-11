@@ -505,30 +505,25 @@ class Message implements ObjectInitializedInterface {
         if (isset($Object->reply_to_message)) {
             $Message->setReplyToMessage($Object->reply_to_message);
         }
+
         if (isset($Object->text)) {
             $Message->setText($Object->text);
-        }
-        if (isset($Object->audio)) {
+        } else if (isset($Object->audio)) {
             $Message->setAudio($Object->audio);
-        }
-        if (isset($Object->document)) {
+        } else if (isset($Object->document)) {
             $Message->setDocument($Object->document);
-        }
-        if (isset($Object->photo)) {
+        } else if (isset($Object->photo)) {
             $Message->setPhoto($Object->photo);
-        }
-        if (isset($Object->sticker)) {
+        } else if (isset($Object->sticker)) {
             $Message->setSticker($Object->sticker);
-        }
-        if (isset($Object->video)) {
+        } else if (isset($Object->video)) {
             $Message->setVideo($Object->video);
-        }
-        if (isset($Object->contact)) {
+        } else if (isset($Object->contact)) {
             $Message->setContact($Object->contact);
-        }
-        if (isset($Object->location)) {
+        } else if (isset($Object->location)) {
             $Message->setLocation($Object->location);
         }
+
         if (isset($Object->new_chat_participant)) {
             $Message->setNewChatParticipant($Object->new_chat_participant);
         }
