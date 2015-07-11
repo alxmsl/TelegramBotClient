@@ -47,7 +47,7 @@ final class SendDocumentTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendDocument(1, '', null, new ReplyKeyboardMarkup([['a']]));
+            $ClientMock->sendDocument(1, '', null, new ReplyKeyboardMarkup([['a']], false, false, true));
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());

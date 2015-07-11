@@ -55,7 +55,7 @@ final class SendMessageTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendMessage(1, '', null, null, new ForceReply());
+            $ClientMock->sendMessage(1, '', null, null, new ForceReply(true));
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());

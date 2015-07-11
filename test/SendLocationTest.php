@@ -46,7 +46,7 @@ final class SendLocationTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendLocation(1, .0, .0, null, new ReplyKeyboardHide());
+            $ClientMock->sendLocation(1, .0, .0, null, new ReplyKeyboardHide(true));
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
