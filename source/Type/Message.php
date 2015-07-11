@@ -487,6 +487,29 @@ class Message implements ObjectInitializedInterface {
     }
 
     /**
+     * @param stdClass $Object message data object
+     */
+    private function setMessageData(stdClass $Object) {
+        if (isset($Object->text)) {
+            $this->setText($Object->text);
+        } else if (isset($Object->audio)) {
+            $this->setAudio($Object->audio);
+        } else if (isset($Object->document)) {
+            $this->setDocument($Object->document);
+        } else if (isset($Object->photo)) {
+            $this->setPhoto($Object->photo);
+        } else if (isset($Object->sticker)) {
+            $this->setSticker($Object->sticker);
+        } else if (isset($Object->video)) {
+            $this->setVideo($Object->video);
+        } else if (isset($Object->contact)) {
+            $this->setContact($Object->contact);
+        } else if (isset($Object->location)) {
+            $this->setLocation($Object->location);
+        }
+    }
+
+    /**
      * @inheritdoc
      */
     public static function initializeByObject(stdClass $Object) {
@@ -495,6 +518,7 @@ class Message implements ObjectInitializedInterface {
         $Message->setFrom($Object->from);
         $Message->setDate($Object->date);
         $Message->setChat($Object->chat);
+        $Message->setMessageData($Object);
 
         if (isset($Object->forward_from)) {
             $Message->setForwardFrom($Object->forward_from);
@@ -505,25 +529,6 @@ class Message implements ObjectInitializedInterface {
         if (isset($Object->reply_to_message)) {
             $Message->setReplyToMessage($Object->reply_to_message);
         }
-
-        if (isset($Object->text)) {
-            $Message->setText($Object->text);
-        } else if (isset($Object->audio)) {
-            $Message->setAudio($Object->audio);
-        } else if (isset($Object->document)) {
-            $Message->setDocument($Object->document);
-        } else if (isset($Object->photo)) {
-            $Message->setPhoto($Object->photo);
-        } else if (isset($Object->sticker)) {
-            $Message->setSticker($Object->sticker);
-        } else if (isset($Object->video)) {
-            $Message->setVideo($Object->video);
-        } else if (isset($Object->contact)) {
-            $Message->setContact($Object->contact);
-        } else if (isset($Object->location)) {
-            $Message->setLocation($Object->location);
-        }
-
         if (isset($Object->new_chat_participant)) {
             $Message->setNewChatParticipant($Object->new_chat_participant);
         }
