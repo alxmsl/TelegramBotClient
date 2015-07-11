@@ -18,6 +18,7 @@
 namespace alxmsl\Telegram\Bot;
 
 use Closure;
+use stdClass;
 
 /**
  * API calls response class
@@ -52,6 +53,17 @@ final class Response {
     }
 
     /**
+     * @param stdClass $Object response data object
+     * @return $this self instance
+     */
+    private function trySetDescription(stdClass $Object) {
+        if (isset($Object->description)) {
+            $this->description = (string) $Object->description;
+        }
+        return $this;
+    }
+
+    /**
      * @return string human-readable description of the result
      */
     public function getDescription() {
@@ -59,10 +71,44 @@ final class Response {
     }
 
     /**
+     * @param stdClass $Object response data object
+     * @param Closure|null $BuildStrategy build strategy for response result(s)
+     * @return $this self instance
+     */
+    private function trySetResult(stdClass $Object, Closure $BuildStrategy = null) {
+        if (isset($Object->result)) {
+            if (is_callable($BuildStrategy)) {
+                if (is_array($Object->result)) {
+                    $this->Result = [];
+                    foreach ($Object->result as $ResultItem) {
+                        $this->Result[] = $BuildStrategy($ResultItem);
+                    }
+                } else {
+                    $this->Result = $BuildStrategy($Object->result);
+                }
+            } else {
+                $this->Result = $Object->result;
+            }
+        }
+        return $this;
+    }
+
+    /**
      * @return mixed|null result instance
      */
     public function getResult() {
         return $this->Result;
+    }
+
+    /**
+     * @param stdClass $Object response data object
+     * @return $this self instance
+     */
+    private function trySetErrorCode(stdClass $Object) {
+        if (isset($Object->error_code)) {
+            $this->errorCode = (int) $Object->error_code;
+        }
+        return $this;
     }
 
     /**
@@ -77,30 +123,13 @@ final class Response {
      * @param Closure|null $BuildStrategy build strategy for response result(s)
      * @return $this response instance
      */
-    public static function initializeByString($string, $BuildStrategy = null) {
+    public static function initializeByString($string, Closure $BuildStrategy = null) {
         $Object       = json_decode($string);
         $Response     = new self();
         $Response->ok = (bool) $Object->ok;
-        if (isset($Object->description)) {
-            $Response->description = (string) $Object->description;
-        }
-        if (isset($Object->error_code)) {
-            $Response->errorCode = (int) $Object->error_code;
-        }
-        if (isset($Object->result)) {
-            if (is_callable($BuildStrategy)) {
-                if (is_array($Object->result)) {
-                    $Response->Result = [];
-                    foreach ($Object->result as $ResultItem) {
-                        $Response->Result[] = $BuildStrategy($ResultItem);
-                    }
-                } else {
-                    $Response->Result = $BuildStrategy($Object->result);
-                }
-            } else {
-                $Response->Result = $Object->result;
-            }
-        }
+        $Response->trySetDescription($Object)
+            ->trySetErrorCode($Object)
+            ->trySetResult($Object, $BuildStrategy);
         return $Response;
     }
 }
