@@ -19,6 +19,7 @@ namespace alxmsl\Test\Telegram\Bot\Type;
 
 use alxmsl\Telegram\Bot\Exception\UnsuccessfulException;
 use alxmsl\Telegram\Bot\Type\Message;
+use alxmsl\Telegram\Bot\Type\ReplyKeyboardHide;
 use alxmsl\Telegram\Bot\Type\User;
 use alxmsl\Telegram\Bot\Type\Sticker;
 use alxmsl\Telegram\Bot\Type\PhotoSize;
@@ -45,7 +46,7 @@ final class SendStickerTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendStickerByFileId(1, '');
+            $ClientMock->sendStickerByFileId(1, '', 17);
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
@@ -53,7 +54,7 @@ final class SendStickerTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendStickerByFileName(1, __FILE__);
+            $ClientMock->sendStickerByFileName(1, __FILE__, 8, new ReplyKeyboardHide());
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());

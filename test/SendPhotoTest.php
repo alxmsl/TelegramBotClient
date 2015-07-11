@@ -17,6 +17,7 @@
 
 namespace alxmsl\Test\Telegram\Bot\Type;
 use alxmsl\Telegram\Bot\Exception\UnsuccessfulException;
+use alxmsl\Telegram\Bot\Type\ForceReply;
 use alxmsl\Telegram\Bot\Type\Message;
 use alxmsl\Telegram\Bot\Type\PhotoSize;
 use alxmsl\Telegram\Bot\Type\User;
@@ -43,7 +44,7 @@ final class SendPhotoTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendPhotoByFileId(1, '');
+            $ClientMock->sendPhotoByFileId(1, '', '', 17);
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
@@ -51,7 +52,7 @@ final class SendPhotoTest extends AbstractCallTest {
         }
 
         try {
-            $ClientMock->sendPhotoFile(1, __FILE__);
+            $ClientMock->sendPhotoFile(1, __FILE__, 'some caption', 17, new ForceReply());
             $this->fail();
         } catch (UnsuccessfulException $Ex) {
             $this->assertEquals(400, $Ex->getCode());
