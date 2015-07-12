@@ -197,11 +197,13 @@ class Message implements ObjectInitializedInterface {
     private $text = '';
     
     /**
-     * @param string $text for text messages, the actual UTF-8 text of the message
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setText($text) {
-        $this->text = (string) $text;
+    private function trySetText(stdClass $Object) {
+        if (isset($Object->text)) {
+            $this->text = (string)$Object->text;
+        }
         return $this;
     }
     
@@ -218,11 +220,13 @@ class Message implements ObjectInitializedInterface {
     private $Audio = null;
     
     /**
-     * @param stdClass $Audio when message is an audio file, information about the file
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setAudio($Audio) {
-        $this->Audio = Audio::initializeByObject($Audio);
+    private function trySetAudio(stdClass $Object) {
+        if (isset($Object->audio)) {
+            $this->Audio = Audio::initializeByObject($Object->audio);
+        }
         return $this;
     }
     
@@ -239,11 +243,13 @@ class Message implements ObjectInitializedInterface {
     private $Document = null;
     
     /**
-     * @param stdClass $Document when message is a general file, information about the file
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setDocument(stdClass $Document) {
-        $this->Document = Document::initializeByObject($Document);
+    private function trySetDocument(stdClass $Object) {
+        if (isset($Object->document)) {
+            $this->Document = Document::initializeByObject($Object->document);
+        }
         return $this;
     }
     
@@ -260,12 +266,14 @@ class Message implements ObjectInitializedInterface {
     private $photo = [];
     
     /**
-     * @param stdClass[] $photo when message is a photo, available sizes of the photo
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setPhoto($photo) {
-        foreach ($photo as $size) {
-            $this->photo[] = PhotoSize::initializeByObject($size);
+    private function trySetPhoto(stdClass $Object) {
+        if (isset($Object->photo)) {
+            foreach ($Object->photo as $size) {
+                $this->photo[] = PhotoSize::initializeByObject($size);
+            }
         }
         return $this;
     }
@@ -283,11 +291,13 @@ class Message implements ObjectInitializedInterface {
     private $Sticker = null;
     
     /**
-     * @param stdClass $Sticker when message is a sticker, information about the sticker
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setSticker($Sticker) {
-        $this->Sticker = Sticker::initializeByObject($Sticker);
+    private function trySetSticker(stdClass $Object) {
+        if (isset($Object->sticker)) {
+            $this->Sticker = Sticker::initializeByObject($Object->sticker);
+        }
         return $this;
     }
     
@@ -304,11 +314,13 @@ class Message implements ObjectInitializedInterface {
     private $Video = null;
     
     /**
-     * @param stdClass $Video when message is a video, information about the video
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setVideo(stdClass $Video) {
-        $this->Video = Video::initializeByObject($Video);
+    private function trySetVideo(stdClass $Object) {
+        if (isset($Object->video)) {
+            $this->Video = Video::initializeByObject($Object->video);
+        }
         return $this;
     }
     
@@ -325,11 +337,13 @@ class Message implements ObjectInitializedInterface {
     private $Contact = null;
     
     /**
-     * @param stdClass $Contact when message is a shared contact, information about the contact
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setContact(stdClass $Contact) {
-        $this->Contact = Contact::initializeByObject($Contact);
+    private function trySetContact(stdClass $Object) {
+        if (isset($Object->contact)) {
+            $this->Contact = Contact::initializeByObject($Object->contact);
+        }
         return $this;
     }
     
@@ -346,11 +360,13 @@ class Message implements ObjectInitializedInterface {
     private $Location = null;
     
     /**
-     * @param stdClass $Location when message is a shared location, information about the location
+     * @param stdClass $Object message data object
      * @return $this self instance
      */
-    private function setLocation($Location) {
-        $this->Location = Location::initializeByObject($Location);
+    private function trySetLocation(stdClass $Object) {
+        if (isset($Object->location)) {
+            $this->Location = Location::initializeByObject($Object->location);
+        }
         return $this;
     }
     
@@ -502,31 +518,6 @@ class Message implements ObjectInitializedInterface {
     }
 
     /**
-     * @param stdClass $Object message data object
-     * @return $this self instance
-     */
-    private function trySetMessageData(stdClass $Object) {
-        if (isset($Object->text)) {
-            $this->setText($Object->text);
-        } else if (isset($Object->audio)) {
-            $this->setAudio($Object->audio);
-        } else if (isset($Object->document)) {
-            $this->setDocument($Object->document);
-        } else if (isset($Object->photo)) {
-            $this->setPhoto($Object->photo);
-        } else if (isset($Object->sticker)) {
-            $this->setSticker($Object->sticker);
-        } else if (isset($Object->video)) {
-            $this->setVideo($Object->video);
-        } else if (isset($Object->contact)) {
-            $this->setContact($Object->contact);
-        } else if (isset($Object->location)) {
-            $this->setLocation($Object->location);
-        }
-        return $this;
-    }
-
-    /**
      * @inheritdoc
      */
     public static function initializeByObject(stdClass $Object) {
@@ -535,7 +526,14 @@ class Message implements ObjectInitializedInterface {
             ->setFrom($Object->from)
             ->setDate($Object->date)
             ->setChat($Object->chat)
-            ->trySetMessageData($Object)
+            ->trySetText($Object)
+            ->trySetAudio($Object)
+            ->trySetDocument($Object)
+            ->trySetPhoto($Object)
+            ->trySetSticker($Object)
+            ->trySetVideo($Object)
+            ->trySetContact($Object)
+            ->trySetLocation($Object)
             ->trySetForwardFrom($Object)
             ->trySetForwardDate($Object)
             ->trySetReplyToMessage($Object)
