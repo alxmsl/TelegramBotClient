@@ -144,10 +144,10 @@ final class Document implements ObjectInitializedInterface {
     public static function initializeByObject(stdClass $Object) {
         $Document = new Document();
         $Document->setFileId($Object->file_id)
-            ->trySetThumb($Object->thumb)
-            ->trySetFileName($Object->file_name)
-            ->trySetMimeType($Object->mime_type)
-            ->trySetFileSize($Object->file_size);
+            ->trySetThumb($Object)
+            ->trySetFileName($Object)
+            ->trySetMimeType($Object)
+            ->trySetFileSize($Object);
         return $Document;
     }
 }
