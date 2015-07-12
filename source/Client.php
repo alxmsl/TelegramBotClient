@@ -20,10 +20,7 @@ namespace alxmsl\Telegram\Bot;
 use alxmsl\Network\Exception\HttpCodeException;
 use alxmsl\Network\Http\Request;
 use alxmsl\Telegram\Bot\Exception\UnsuccessfulException;
-use alxmsl\Telegram\Bot\Type\ForceReply;
 use alxmsl\Telegram\Bot\Type\Message;
-use alxmsl\Telegram\Bot\Type\ReplyKeyboardHide;
-use alxmsl\Telegram\Bot\Type\ReplyKeyboardMarkup;
 use alxmsl\Telegram\Bot\Type\Update;
 use alxmsl\Telegram\Bot\Type\User;
 use alxmsl\Telegram\Bot\Type\UserProfilePhotos;
@@ -36,7 +33,7 @@ use stdClass;
  * Telegram Bot API client
  * @author alxmsl
  */
-class Client {
+class Client implements ClientInterface {
     /**
      * Telegram API endpoint
      */
@@ -97,8 +94,7 @@ class Client {
     }
 
     /**
-     * Get basic information about the bot
-     * @return User bot user instance
+     * @inheritdoc
      */
     public function getMe() {
         return $this->getResult('getMe', [], function(stdClass $User) {
@@ -107,14 +103,7 @@ class Client {
     }
 
     /**
-     * Send text message
-     * @param int $chatId unique identifier for the message recipient
-     * @param string $text text of the message to be sent
-     * @param bool|null $disableWebPagePreview disables link previews for links in this message
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendMessage($chatId, $text, $disableWebPagePreview = null, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         $parameters = [
@@ -136,11 +125,7 @@ class Client {
     }
 
     /**
-     * Method to forward messages of any kind
-     * @param int $chatId unique identifier for the message recipient
-     * @param int $fromChatId unique identifier for the chat where the original message was sent
-     * @param int $messageId unique message identifier
-     * @return Message forwarded message
+     * @inheritdoc
      */
     public function forwardMessage($chatId, $fromChatId, $messageId) {
         return $this->getResult('forwardMessage', [
@@ -153,15 +138,7 @@ class Client {
     }
 
     /**
-     * Method to send photo
-     * @param int $chatId unique identifier for the message recipient
-     * @param CURLFile|string $Photo photo to send - photo that is already on the Telegram servers, or upload a new
-     * photo
-     * @param string $caption photo caption
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendPhoto($chatId, $Photo, $caption = '', $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         $parameters = [
@@ -183,28 +160,14 @@ class Client {
     }
 
     /**
-     * Method to send photo
-     * @param int $chatId unique identifier for the message recipient
-     * @param string $fileId identifier of the photo that is already on the Telegram servers
-     * @param string $caption photo caption
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendPhotoByFileId($chatId, $fileId, $caption = '', $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         return $this->sendPhoto($chatId, (string) $fileId, $caption, $replyToMessageId, $ReplyMarkUp);
     }
 
     /**
-     * Method to send photo
-     * @param int $chatId unique identifier for the message recipient
-     * @param string $fileName path for upload a new photo from file
-     * @param string $caption photo caption
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendPhotoFile($chatId, $fileName, $caption = '', $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         $File = new CURLFile($fileName);
@@ -212,14 +175,7 @@ class Client {
     }
 
     /**
-     * Method to send audio
-     * @param int $chatId unique identifier for the message recipient
-     * @param CURLFile|string $Audio audio to send - audio that is already on the Telegram servers, or upload a new
-     * audio
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendAudio($chatId, $Audio, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         $parameters = [
@@ -238,26 +194,14 @@ class Client {
     }
 
     /**
-     * Method to send audio
-     * @param int $chatId unique identifier for the message recipient
-     * @param string $fileId identifier of the audio that is already on the Telegram servers
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendAudioByFileId($chatId, $fileId, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         return $this->sendAudio($chatId, (string) $fileId, $replyToMessageId, $ReplyMarkUp);
     }
 
     /**
-     * Method to send audio
-     * @param int $chatId unique identifier for the message recipient
-     * @param string $fileName path for upload a new audio from file
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendAudioByFileName($chatId, $fileName, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         $File = new CURLFile($fileName);
@@ -265,14 +209,7 @@ class Client {
     }
 
     /**
-     * Method to send document
-     * @param int $chatId unique identifier for the message recipient
-     * @param CURLFile|string $Document document to send - document that is already on the Telegram servers, or upload a
-     * new document
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendDocument($chatId, $Document, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         $parameters = [
@@ -291,26 +228,14 @@ class Client {
     }
 
     /**
-     * Method to send document
-     * @param int $chatId unique identifier for the message recipient
-     * @param string $fileId identifier of the document that is already on the Telegram servers
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendDocumentByFileId($chatId, $fileId, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         return $this->sendDocument($chatId, (string) $fileId, $replyToMessageId, $ReplyMarkUp);
     }
 
     /**
-     * Method to send document
-     * @param int $chatId unique identifier for the message recipient
-     * @param string $fileName path for upload a new document from file
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendDocumentByFileName($chatId, $fileName, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         $File = new CURLFile($fileName);
@@ -318,14 +243,7 @@ class Client {
     }
 
     /**
-     * Method to send sticker
-     * @param int $chatId unique identifier for the message recipient
-     * @param CURLFile|string $Sticker sticker to send - sticker that is already on the Telegram servers, or upload a
-     * new sticker
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendSticker($chatId, $Sticker, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         $parameters = [
@@ -344,26 +262,14 @@ class Client {
     }
 
     /**
-     * Method to send sticker
-     * @param int $chatId unique identifier for the message recipient
-     * @param string $fileId identifier of the sticker that is already on the Telegram servers
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendStickerByFileId($chatId, $fileId, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         return $this->sendsticker($chatId, (string) $fileId, $replyToMessageId, $ReplyMarkUp);
     }
 
     /**
-     * Method to send sticker
-     * @param int $chatId unique identifier for the message recipient
-     * @param string $fileName path for upload a new sticker from file
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendStickerByFileName($chatId, $fileName, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         $File = new CURLFile($fileName);
@@ -371,14 +277,7 @@ class Client {
     }
 
     /**
-     * Method to send video
-     * @param int $chatId unique identifier for the message recipient
-     * @param CURLFile|string $Video video to send - video that is already on the Telegram servers, or upload a new
-     * video
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendVideo($chatId, $Video, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         $parameters = [
@@ -397,26 +296,14 @@ class Client {
     }
 
     /**
-     * Method to send video
-     * @param int $chatId unique identifier for the message recipient
-     * @param string $fileId identifier of the video that is already on the Telegram servers
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendVideoByFileId($chatId, $fileId, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         return $this->sendvideo($chatId, (string) $fileId, $replyToMessageId, $ReplyMarkUp);
     }
 
     /**
-     * Method to send video
-     * @param int $chatId unique identifier for the message recipient
-     * @param string $fileName path for upload a new video from file
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendVideoByFileName($chatId, $fileName, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         $File = new CURLFile($fileName);
@@ -424,14 +311,7 @@ class Client {
     }
 
     /**
-     * Method to send location
-     * @param int $chatId unique identifier for the message recipient
-     * @param float $latitude latitude of location
-     * @param float $longitude longitude of location
-     * @param int|null $replyToMessageId if the message is a reply, ID of the original message
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|JsonSerializable|null $ReplyMarkUp object for a custom
-     * reply keyboard, instructions to hide keyboard or to force a reply from the user
-     * @return Message sent message instance
+     * @inheritdoc
      */
     public function sendLocation($chatId, $latitude, $longitude, $replyToMessageId = null, JsonSerializable $ReplyMarkUp = null) {
         $parameters = [
@@ -451,11 +331,7 @@ class Client {
     }
 
     /**
-     * Method when you need to tell the user that something is happening on the bot's side
-     * @param int $chatId unique identifier for the message recipient
-     * @param string $action type of action to broadcast.
-     * @see Action class for constantst
-     * @return mixed result data
+     * @inheritdoc
      */
     public function sendChatAction($chatId, $action) {
         return $this->getResult('sendChatAction', [
@@ -465,11 +341,7 @@ class Client {
     }
 
     /**
-     * Method to get a list of profile pictures for a user
-     * @param int $userId unique identifier of the target user
-     * @param null|int $offset sequential number of the first photo to be returned
-     * @param null|int $limit limits the number of photos to be retrieved
-     * @return UserProfilePhotos profile photos
+     * @inheritdoc
      */
     public function getUserProfilePhotos($userId, $offset = null, $limit = null) {
         $parameters = [
@@ -487,11 +359,7 @@ class Client {
     }
 
     /**
-     * Receive incoming updates using long polling
-     * @param int|null $offset identifier of the first update to be returned
-     * @param int|null $limit limits the number of updates to be retrieved
-     * @param int|null $timeout timeout in seconds for long polling
-     * @return Update[] received updates
+     * @inheritdoc
      */
     public function getUpdates($offset = null, $limit = null, $timeout = null) {
         $parameters = [];
@@ -510,9 +378,7 @@ class Client {
     }
 
     /**
-     * Method to specify a url and receive incoming updates via an outgoing webhook
-     * @param string $url HTTPS url to send updates to
-     * @return mixed method response
+     * @inheritdoc
      */
     public function setWebhook($url) {
         return $this->getResult('setWebhook', [
@@ -521,8 +387,7 @@ class Client {
     }
 
     /**
-     * Remove webhook integration method
-     * @return mixed method response
+     * @inheritdoc
      */
     public function removeWebhook() {
         return $this->setWebhook('');
