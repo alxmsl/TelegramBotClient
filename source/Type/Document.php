@@ -52,11 +52,13 @@ final class Document implements ObjectInitializedInterface {
     private $Thumb = null;
     
     /**
-     * @param stdClass $Thumb Document thumbnail as defined by sender
+     * @param stdClass $Object document data
      * @return $this self instance
      */
-    private function setThumb(stdClass $Thumb) {
-        $this->Thumb = PhotoSize::initializeByObject($Thumb);
+    private function trySetThumb(stdClass $Object) {
+        if (!empty((array) $Object->thumb)) {
+            $this->Thumb = PhotoSize::initializeByObject($Object->thumb);
+        }
         return $this;
     }
     
@@ -73,11 +75,13 @@ final class Document implements ObjectInitializedInterface {
     private $fileName = '';
     
     /**
-     * @param String $fileName original filename as defined by sender
+     * @param stdClass $Object document data
      * @return $this self instance
      */
-    private function setFileName($fileName) {
-        $this->fileName = (string) $fileName;
+    private function trySetFileName(stdClass $Object) {
+        if (isset($Object->file_name)) {
+            $this->fileName = (string) $Object->file_name;
+        }
         return $this;
     }
     
@@ -94,11 +98,13 @@ final class Document implements ObjectInitializedInterface {
     private $mimeType = '';
 
     /**
-     * @param string $mimeType MIME type of the file as defined by sender
+     * @param stdClass $Object document data
      * @return $this self instance
      */
-    private function setMimeType($mimeType) {
-        $this->mimeType = (string) $mimeType;
+    private function trySetMimeType(stdClass $Object) {
+        if (isset($Object->mime_type)) {
+            $this->mimeType = (string) $Object->mime_type;
+        }
         return $this;
     }
 
@@ -115,11 +121,13 @@ final class Document implements ObjectInitializedInterface {
     private $fileSize = 0;
 
     /**
-     * @param int $fileSize file size
+     * @param stdClass $Object document data
      * @return $this self instance
      */
-    private function setFileSize($fileSize) {
-        $this->fileSize = (int) $fileSize;
+    private function trySetFileSize(stdClass $Object) {
+        if (isset($Object->file_size)) {
+            $this->fileSize = (int) $Object->file_size;
+        }
         return $this;
     }
 
@@ -135,20 +143,11 @@ final class Document implements ObjectInitializedInterface {
      */
     public static function initializeByObject(stdClass $Object) {
         $Document = new Document();
-        $Document->setFileId($Object->file_id);
-
-        if (!empty((array) $Object->thumb)) {
-            $Document->setThumb($Object->thumb);
-        }
-        if (isset($Object->file_name)) {
-            $Document->setFileName($Object->file_name);
-        }
-        if (isset($Object->mime_type)) {
-            $Document->setMimeType($Object->mime_type);
-        }
-        if (isset($Object->file_size)) {
-            $Document->setFileSize($Object->file_size);
-        }
+        $Document->setFileId($Object->file_id)
+            ->trySetThumb($Object->thumb)
+            ->trySetFileName($Object->file_name)
+            ->trySetMimeType($Object->mime_type)
+            ->trySetFileSize($Object->file_size);
         return $Document;
     }
 }
