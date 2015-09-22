@@ -2,13 +2,12 @@
 
 [![License](https://poser.pugx.org/alxmsl/telegrambotclient/license)](https://packagist.org/packages/alxmsl/telegrambotclient)
 [![Latest Stable Version](https://poser.pugx.org/alxmsl/telegrambotclient/version)](https://packagist.org/packages/alxmsl/telegrambotclient)
+[![Total Downloads](https://poser.pugx.org/alxmsl/telegrambotclient/downloads)](https://packagist.org/packages/alxmsl/telegrambotclient)
 
 [![Build Status](https://travis-ci.org/alxmsl/TelegramBotClient.svg)](https://travis-ci.org/alxmsl/TelegramBotClient)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alxmsl/TelegramBotClient/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alxmsl/TelegramBotClient/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/alxmsl/TelegramBotClient/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/alxmsl/TelegramBotClient/?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/55b5ffd4653762002000002f/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55b5ffd4653762002000002f)
-
-[![Total Downloads](https://poser.pugx.org/alxmsl/telegrambotclient/downloads)](https://packagist.org/packages/alxmsl/telegrambotclient)
+[![Dependency Status](https://www.versioneye.com/user/projects/5601a2c6f5f2eb001a000ade/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5601a2c6f5f2eb001a000ade)
 
 Powerful client for [Telegram Bot API](https://core.telegram.org/bots)
 
