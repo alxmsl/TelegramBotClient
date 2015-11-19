@@ -8,8 +8,8 @@ php:
 before_script:
   - composer self-update
   - composer --no-interaction --no-dev install
-  - if [[ $TRAVIS_PHP_VERSION <= '5.5' ]]; then composer --no-interaction require "phpunit/phpunit=4.8.*" ; fi
-  - if [[ $TRAVIS_PHP_VERSION > '5.5' ]]; then composer --no-interaction require "phpunit/phpunit=~5" ; fi
+  - if [[ $TRAVIS_PHP_VERSION == '5.5' ]]; then composer --no-interaction require "phpunit/phpunit=4.8.*" ; fi
+  - if [[ $TRAVIS_PHP_VERSION != '5.5' ]]; then composer --no-interaction require "phpunit/phpunit=~5" ; fi
 script: phpunit --coverage-clover=coverage.clover
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar --no-check-certificate
